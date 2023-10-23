@@ -1,5 +1,4 @@
 ﻿body {
-    padding-top: 258px;
     padding-bottom: 20px;
     font-family: 'CenturyGothic', Arial, sans-serif;
 }
@@ -29,6 +28,7 @@ img {
 }
 
 .navbar {
+    position: initial;
     background-color: #dfdfdf;
     overflow: hidden;
     text-align: center;
@@ -55,4 +55,19 @@ img {
 
 .header-logo {
     max-width: 200px;
+}
+
+.slider {
+    max-width: 1000px;
+    box-shadow: 1px 10px 30px black;
+}
+
+@media screen and (max-width : 720px) {
+    .slider {
+        max-width: 100%;
+    }
+}
+.slider-block {
+    display: flex;
+    justify-content: center;
 }

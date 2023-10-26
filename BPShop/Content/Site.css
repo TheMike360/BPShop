@@ -2,6 +2,7 @@
     padding-bottom: 20px;
     font-family: 'CenturyGothic', Arial, sans-serif;
     color: black;
+    background-color: #f1f6ce;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -28,8 +29,8 @@ img {
     width: 100%;
 }
 
-.flex { 
-    display: flex 
+.flex {
+    display: flex
 }
 
 .navbar-inverse {
@@ -39,6 +40,8 @@ img {
 .navbar-items {
     border-bottom: 1px solid #d26b57;
     margin: 3rem 0;
+    display: flex;
+    justify-content: center;
 }
 
     .navbar-items a {
@@ -57,17 +60,18 @@ img {
             box-shadow: 0px 3px 6px #000;
             /*color: #00C470;*/
         }
+
 .navbar {
     position: initial;
     background-color: #fff;
-    overflow: hidden;
     text-align: center;
     margin-bottom: 0;
+    background-color: #f1f6ce;
 }
 
-.navbar a {
-    display: inline-block;
-}
+    .navbar a {
+        display: inline-block;
+    }
 
 .header-content {
     display: flex;
@@ -80,6 +84,7 @@ img {
     max-width: 300px;
     text-align: left;
 }
+
     .header-logo a {
         padding: 1rem 0;
     }
@@ -143,21 +148,22 @@ img {
     justify-content: space-between;
 }
 
-.search-filter{
-
+.search-filter {
 }
 
-.search-filter input {
-    border-radius: 5px;
-    border: 1px solid #2B3531;
-    padding-left: 5px;
-    padding: 5px 35px 5px 5px;
-    color: #2B3531;
-    outline: none;
-}
+    .search-filter input {
+        border-radius: 5px;
+        border: 1px solid #2B3531;
+        padding-left: 5px;
+        padding: 5px 35px 5px 5px;
+        color: #2B3531;
+        outline: none;
+    }
+
 .search-input-div {
     position: relative;
 }
+
     .search-input-div svg {
         position: absolute;
         max-height: 32px;
@@ -165,7 +171,7 @@ img {
         right: 0;
         cursor: pointer;
         border: 1px solid #2B3531;
-        border-radius:5px;
+        border-radius: 5px;
         padding: 2px;
     }
 
@@ -238,11 +244,11 @@ img {
         color: #d26b57;
     }
 
-    .price {
-        font-weight: bold;
-        color: #15221D;
-        margin: 10px 0;
-    }
+.price {
+    font-weight: bold;
+    color: #15221D;
+    margin: 10px 0;
+}
 
 .order-button {
     background-color: #131d15;
@@ -265,7 +271,7 @@ img {
 }
 
 footer h3 {
- font-weight: bold;
+    font-weight: bold;
 }
 
 footer a {
@@ -278,7 +284,98 @@ footer a {
     justify-content: space-around;
 }
 
+.menu-list ul {
+    padding: 10px;
+}
 
+.menu-list li {
+    padding: 5px;
+}
+
+.menu-list a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-navbar-items {
+    position: relative;
+    width: 100px;
+    height: 100px;
+}
+
+.menu-button:hover + .menu-list, .menu-list:hover {
+    display: block;
+}
+
+.menu-button:hover + .long-menu-list, .long-menu-list:hover {
+    display: block;
+}
+
+.menu-button {
+    background: #d26b57;
+    color: #fff;
+    padding: 10px 12px;
+    margin: 1rem;
+    text-decoration: none;
+    border-radius: 10px;
+    transition-duration: 0.3s;
+    cursor: pointer;
+    border: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+}
+
+.long-menu-list {
+    display: none;
+    list-style: none;
+    padding: 0;
+    background: #fff;
+    border: 1px solid #2B3531;
+    border-radius: 10px;
+    margin: 0;
+    position: absolute;
+    top: 50px;
+    right: calc(100% - 400px);
+    z-index: 2;
+    width: 750px;
+}
+
+    .long-menu-list ul {
+        display: flex;
+        flex-direction: column;
+        max-height: 400px;
+        flex-wrap: wrap;
+    }
+
+.menu-list {
+    display: none;
+    list-style: none;
+    padding: 0;
+    background: #fff;
+    border: 1px solid #2B3531;
+    border-radius: 10px;
+    margin: 0;
+    position: absolute;
+    top: 50px;
+    z-index: 2;
+}
+
+    .menu-list li, .long-menu-list li {
+        padding: 5px;
+        list-style-type: none;
+        height: 50px;
+    }
+
+    .long-menu-list a, .menu-list a {
+        color: #d26b57;
+        background-color: #fff;
+        font-weight: bold;
+        text-decoration: none;
+        display: block;
+    }
 
 @media screen and (max-width : 720px) {
     .slider {

@@ -33,6 +33,10 @@ img {
     display: flex
 }
 
+.f-column {
+    flex-direction: column;
+}
+
 .navbar-inverse {
     border-color: transparent;
 }
@@ -387,8 +391,15 @@ footer a {
         text-decoration: none;
         display: block;
     }
+
 hr {
     border-top: 1px solid #d26b57;
+}
+
+.contact-img-link {
+    max-width: 120px;
+    margin-top: 1rem;
+    margin-right:5rem;
 }
 
 @media screen and (max-width : 720px) {

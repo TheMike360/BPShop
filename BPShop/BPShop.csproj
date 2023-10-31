@@ -138,6 +138,8 @@
     <Content Include="Content\imgs\flowers2.jpg" />
     <Content Include="Content\imgs\flowers3.jpg" />
     <Content Include="Content\imgs\flowers4.jpg" />
+    <Content Include="Content\imgs\inst.png" />
+    <Content Include="Content\imgs\wa.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

@@ -20,7 +20,9 @@
         <div class="container">
             <div class="header-content">
                 <div class="header-logo">
-                    <img src="~/Content/imgs/BPLogo_black.png" alt="Alternate Text" />
+                    <a href="@Url.Action("Index")">
+                        <img src="~/Content/imgs/BPLogo_black.png" alt="Alternate Text" />
+                    </a>
                     <p>
                         "Без повода" - ваш идеальный онлайн магазин для ярких букетов цветов.
                         У нас вы найдете свежие и красочные композиции, идеально подходящие для подарка без повода.
@@ -40,8 +42,30 @@
                 </div>
             </div>
             <div class="navbar-items">
+
                 <div class="dropdown-navbar-items">
-                    <button class="menu-button">Цветы</button>
+                    <button class="menu-button">Разное ▼</button>
+                    <div class="menu-list">
+                        <ul>
+                            <li>@Html.ActionLink("Шары", "Index", "Home")</li>
+                            <li>@Html.ActionLink("Мягкие игрушки", "Contact", "Home")</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="dropdown-navbar-items">
+                    <button class="menu-button">Букеты ▼</button>
+                    <div class="menu-list">
+                        <ul>
+                            <li>@Html.ActionLink("Моно Букеты", "Contact", "Home")</li>
+                            <li>@Html.ActionLink("Букеты в коробке", "Contact", "Home")</li>
+                            <li>@Html.ActionLink("Контакты", "Contact", "Home")</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="dropdown-navbar-items">
+                    <button class="menu-button">Цветы ▼</button>
                     <div class="long-menu-list">
                         <ul class="long-item">
                             <li>@Html.ActionLink("Розы", "Index", "Home")</li>
@@ -75,12 +99,11 @@
                 </div>
 
                 <div class="dropdown-navbar-items">
-                    <button class="menu-button">Меню</button>
+                    <button class="menu-button">Меню ▼</button>
                     <div class="menu-list">
                         <ul>
                             <li>@Html.ActionLink("Главная", "Index", "Home")</li>
-                            <li>@Html.ActionLink("О нас", "Contact", "Home")</li>
-                            <li>@Html.ActionLink("Услуги", "Contact", "Home")</li>
+                            <li>@Html.ActionLink("О нас", "About", "Home")</li>
                             <li>@Html.ActionLink("Контакты", "Contact", "Home")</li>
                         </ul>
                     </div>
@@ -240,17 +263,18 @@
                     </div>
                     <p>&copy; @DateTime.Now.Year - ТОО "БЕЗ ПОВОДА"</p>
                 </div>
-                <div>
+                <div class="flex f-column">
                     <h3>Главная</h3>
-                    <a href="#">Каталог</a>
+                    @Html.ActionLink("Каталог", "Index", "Home")
                 </div>
-                <div>
+                <div class="flex f-column">
                     <h3>Информация</h3>
                     <a href="#">Оплата</a>
                 </div>
-                <div>
+                <div class="flex f-column">
                     <h3>КОНТАКТЫ</h3>
-                    <a href="#">Контакты магазина</a>
+                    @Html.ActionLink("Контакты магазина", "Contact", "Home")
+                    @Html.ActionLink("О нас", "About", "Home")
                 </div>
             </div>
         </footer>

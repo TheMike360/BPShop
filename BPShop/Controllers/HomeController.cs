@@ -1,16 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using BPShop.Context;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using System.Web;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace BPShop.Controllers
 {
 	public class HomeController : Controller
 	{
-		public ActionResult Index()
+		private readonly MYContext context;
+
+		public HomeController() : this(new MYContext())
 		{
-			return View();
+		}
+		public HomeController(MYContext context)
+		{
+			this.context = context;
+		}
+
+		public async Task<ActionResult> Index()
+		{
+			var Products = await context.Products.OrderByDescending(x => x.ID).Take(10).ToListAsync();
+			return View(Products);
 		}
 
 		public ActionResult About()

@@ -1,4 +1,6 @@
-﻿@{
+﻿@model List<BPShop.Enities.Product>
+
+@{
     ViewBag.Title = "Home Page";
     Layout = null;
 }
@@ -144,30 +146,17 @@
         </div>
 
         <div class="container-products">
-            <div class="product">
-                <img src="~/Content/imgs/flowers2.jpg" alt="Товар 1">
-                <h3>Товар 1</h3>
-                <p class="price">Цена: $19.99</p>
-                <button class="order-button">Заказать</button>
-            </div>
-            <div class="product">
-                <img src="~/Content/imgs/flowers2.jpg" alt="Товар 2">
-                <h3>Товар 2</h3>
-                <p class="price">Цена: $29.99</p>
-                <button class="order-button">Заказать</button>
-            </div>
-            <div class="product">
-                <img src="~/Content/imgs/flowers2.jpg" alt="Товар 2">
-                <h3>Товар 2</h3>
-                <p class="price">Цена: $29.99</p>
-                <button class="order-button">Заказать</button>
-            </div>
-            <div class="product">
-                <img src="~/Content/imgs/flowers2.jpg" alt="Товар 2">
-                <h3>Товар 2</h3>
-                <p class="price">Цена: $29.99</p>
-                <button class="order-button">Заказать</button>
-            </div>
+            @foreach (var product in Model)
+            {
+                <div class="product">
+                    <img src="@product.ImgRef" alt="Товар">
+                    <div style="padding: 1rem;">
+                        <h3>@product.Name</h3>
+                        <p class="price">Цена: @product.Cost</p>
+                        <button class="order-button">Заказать</button>
+                    </div>
+                </div>
+            }
         </div>
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

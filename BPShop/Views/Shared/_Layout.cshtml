@@ -1,12 +1,14 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.css">
     <title>@ViewBag.Title - приложение ASP.NET</title>
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -44,9 +46,9 @@
                     <button class="menu-button">Букеты ▼</button>
                     <div class="menu-list">
                         <ul>
-                            <li>@Html.ActionLink("Моно Букеты", "Contact", "Home")</li>
-                            <li>@Html.ActionLink("Букеты в коробке", "Contact", "Home")</li>
-                            <li>@Html.ActionLink("Контакты", "Contact", "Home")</li>
+                            <li>@Html.ActionLink("Моно Букеты", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Букеты в коробке", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Евро Букеты", "Products", "Home")</li>
                         </ul>
                     </div>
                 </div>
@@ -55,32 +57,32 @@
                     <button class="menu-button">Цветы ▼</button>
                     <div class="long-menu-list">
                         <ul class="long-item">
-                            <li>@Html.ActionLink("Розы", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Пионы", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Тюльпаны", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Гортензии", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Пионовидные ", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Кустовые ", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Альстромерии", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Гвоздики", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Георгины", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Герберы", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Гипсафилы", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Каллы", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Ирисы", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Ландыши", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Лилии", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Орхидеи", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Подсолнухи", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Ранункулюсы", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Ромашки", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Сирень", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Сухоцветы", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Хризантемы", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Антуриумы", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Амариллисы", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Гладиолусы", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Лизиантусы ", "Index", "Home")</li>
+                            <li>@Html.ActionLink("Розы", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Пионы", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Тюльпаны", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Гортензии", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Пионовидные ", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Кустовые ", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Альстромерии", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Гвоздики", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Георгины", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Герберы", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Гипсафилы", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Каллы", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Ирисы", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Ландыши", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Лилии", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Орхидеи", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Подсолнухи", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Ранункулюсы", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Ромашки", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Сирень", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Сухоцветы", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Хризантемы", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Антуриумы", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Амариллисы", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Гладиолусы", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Лизиантусы ", "Products", "Home")</li>
                         </ul>
                     </div>
                 </div>
@@ -126,9 +128,5 @@
             </div>
         </footer>
     </div>
-
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
 </body>
 </html>

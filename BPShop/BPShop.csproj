@@ -243,6 +243,7 @@
     <Compile Include="Context\MYContext.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Enities\Product.cs" />
+    <Compile Include="Enums\SortType.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -272,6 +273,7 @@
     <Content Include="Content\imgs\inst.png" />
     <Content Include="Content\imgs\wa.png" />
     <Content Include="Content\productImgs\flowers.jpg" />
+    <Content Include="Content\Site.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -303,6 +305,7 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Products.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,139 @@
+﻿
+@{
+    ViewBag.Title = "Products";
+}
+
+<div class="container body-content">
+
+    <div>
+        <h2 class="fat-h text-center">Букеты с доставкой в Алматы</h2>
+    </div>
+
+    <div class="filter-bar">
+        <div class="drop-filter">
+            <button id="showDropdown" class="showDropdown-btn">Цена ▼</button>
+            <div id="dropdown">
+                <div id="price-range2"></div>
+                <div class="range-values">
+                    <div id="price-min">5,000</div>
+                    <span>&nbsp — &nbsp</span>
+                    <div id="price-max">100,000</div>
+                    <button class="border-btn" onclick="">ok</button>
+                </div>
+            </div>
+        </div>
+        <div class="search-filter">
+            <div class="search-input-div">
+                <input type="text" value="" />
+                <svg class="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 88">
+                    <path fill="#757575" d="M85 31.1c-.5-8.7-4.4-16.6-10.9-22.3C67.6 3 59.3 0 50.6.6c-8.7.5-16.7 4.4-22.5 11-11.2
+                              12.7-10.7 31.7.6 43.9l-5.3 6.1-2.5-2.2-17.8 20 9 8.1 17.8-20.2-2.1-1.8 5.3-6.1c5.8 4.2 12.6 6.3 19.3 6.3 9 0
+                              18-3.7 24.4-10.9 5.9-6.6 8.8-15 8.2-23.7zM72.4 50.8c-9.7 10.9-26.5 11.9-37.6 2.3-10.9-9.8-11.9-26.6-2.3-37.6
+                              4.7-5.4 11.3-8.5 18.4-8.9h1.6c6.5 0 12.7 2.4 17.6 6.8 5.3 4.7 8.5 11.1 8.9 18.2.5 7-1.9 13.8-6.6 19.2z"></path>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-products">
+        @foreach (var product in Model)
+        {
+            <div class="product">
+                <img src="@product.ImgRef" alt="Товар">
+                <div style="padding: 1rem;">
+                    <h3>@product.Name</h3>
+                    <p class="price">Цена: @product.Cost</p>
+                    <button class="order-button">Заказать</button>
+                </div>
+            </div>
+        }
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.js"></script>
+
+
+    <script>
+        //slider
+        $('.slider').slick({
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            dots: true,
+            autoplay: true,
+            autoplaySpeed: 4000,
+            responsive: [
+                {
+                    breakpoint: 1300,
+                    settings: {
+                        speed: 600,
+                        cssEase: 'linear'
+                    }
+                }
+            ]
+        });
+
+        //price range
+        var priceRange = document.getElementById("price-range2");
+        var priceMin = document.getElementById("price-min");
+        var priceMax = document.getElementById("price-max");
+
+        noUiSlider.create(priceRange, {
+                start: [@ViewBag.MinCost, @ViewBag.MaxCost],
+                connect: true,
+                range: {
+                    'min': @ViewBag.MinCost,
+                    'max': @ViewBag.MaxCost
+                },
+                format: {
+                    to: function (value) {
+                        return Math.round(value);
+                    },
+                    from: function (value) {
+                        return value;
+                    }
+                }
+            });
+
+        priceRange.noUiSlider.on('update', function (values, handle) {
+            if (handle === 0) {
+                priceMin.textContent = addCommas(values[0]);
+            }
+            if (handle === 1) {
+                priceMax.textContent = addCommas(values[1]);
+            }
+        });
+
+        function addCommas(number) {
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        //drop menu
+        var showDropdownButton = document.getElementById("showDropdown");
+        var dropdown = document.getElementById("dropdown");
+        var pricema = document.getElementById("price-max");
+
+        showDropdownButton.addEventListener("click", function () {
+            if (dropdown.style.display === "none" || dropdown.style.display === "") {
+                dropdown.style.display = "block";
+            } else {
+                dropdown.style.display = "none";
+            }
+        });
+        dropdown.addEventListener("click", function (event) {
+            event.stopPropagation();
+        });
+        document.addEventListener("click", function (event) {
+            if (event.target !== showDropdownButton && event.target !== dropdown
+                && event.target !== priceRange && event.target !== pricema) {
+                dropdown.style.display = "none";
+            }
+        });
+
+    </script>
+
+
+</div>
+
+
+

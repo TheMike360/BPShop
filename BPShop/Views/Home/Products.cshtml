@@ -18,7 +18,7 @@
                     <div id="price-min">5,000</div>
                     <span>&nbsp — &nbsp</span>
                     <div id="price-max">100,000</div>
-                    <button class="border-btn" onclick="">ok</button>
+                    <button class="border-btn" onclick="SetRangeFilter()">ok</button>
                 </div>
             </div>
         </div>
@@ -55,31 +55,15 @@
 
 
     <script>
-        //slider
-        $('.slider').slick({
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            dots: true,
-            autoplay: true,
-            autoplaySpeed: 4000,
-            responsive: [
-                {
-                    breakpoint: 1300,
-                    settings: {
-                        speed: 600,
-                        cssEase: 'linear'
-                    }
-                }
-            ]
-        });
 
         //price range
+        var isRangeChanged = false;
         var priceRange = document.getElementById("price-range2");
         var priceMin = document.getElementById("price-min");
         var priceMax = document.getElementById("price-max");
 
         noUiSlider.create(priceRange, {
-                start: [@ViewBag.MinCost, @ViewBag.MaxCost],
+                start: [@ViewBag.MinRange, @ViewBag.MaxRange],
                 connect: true,
                 range: {
                     'min': @ViewBag.MinCost,
@@ -96,6 +80,7 @@
             });
 
         priceRange.noUiSlider.on('update', function (values, handle) {
+            isRangeChanged = true;
             if (handle === 0) {
                 priceMin.textContent = addCommas(values[0]);
             }
@@ -108,27 +93,23 @@
             return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
 
-        //drop menu
-        var showDropdownButton = document.getElementById("showDropdown");
-        var dropdown = document.getElementById("dropdown");
-        var pricema = document.getElementById("price-max");
+        function SetRangeFilter() {
 
-        showDropdownButton.addEventListener("click", function () {
-            if (dropdown.style.display === "none" || dropdown.style.display === "") {
-                dropdown.style.display = "block";
-            } else {
-                dropdown.style.display = "none";
+            var searchParams = new URLSearchParams(window.location.search);
+
+            var maxRange = searchParams.get("maxRange");
+            var minRange = searchParams.get("minRange");
+            debugger
+            if (!isRangeChanged)
+                console.log(maxRange + " gay " + minRange)
+            else {
+                var params = {
+                    maxRange: parseInt(document.getElementById("price-max").textContent.replace(/,/g, ''), 10),
+                    minRange: parseInt(document.getElementById("price-min").textContent.replace(/,/g, ''), 10),
+                };
+                window.location.href = '@Url.Action("Products")?' + $.param(params);
             }
-        });
-        dropdown.addEventListener("click", function (event) {
-            event.stopPropagation();
-        });
-        document.addEventListener("click", function (event) {
-            if (event.target !== showDropdownButton && event.target !== dropdown
-                && event.target !== priceRange && event.target !== pricema) {
-                dropdown.style.display = "none";
-            }
-        });
+        }
 
     </script>
 

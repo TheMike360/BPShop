@@ -40,9 +40,14 @@ namespace BPShop.Controllers
 			ViewBag.MaxCost = (int)products.Select(x => x.Cost).Max();
 			ViewBag.MinCost = (int)products.Select(x => x.Cost).Min();
 
+			ViewBag.MaxRange = ViewBag.MaxCost;
+			ViewBag.MinRange = ViewBag.MinCost;
+
 			if (minRange != 0 && maxRange != 0)
 			{
-				products = products.Where(x => x.Cost >= minRange && x.Cost <= minRange);
+				ViewBag.MaxRange = maxRange;
+				ViewBag.MinRange = minRange;
+				products = products.Where(x => x.Cost >= minRange && x.Cost <= maxRange);
 			}
 			if (sortType != SortType.defaultSort)
 			{
@@ -64,8 +69,6 @@ namespace BPShop.Controllers
 			}
 
 			//вид сортировки
-			ViewBag.MaxRange = maxRange;
-			ViewBag.MinRange = minRange;
 			ViewBag.SortType = sortType;
 
 			List<Product> result = await products.ToListAsync();

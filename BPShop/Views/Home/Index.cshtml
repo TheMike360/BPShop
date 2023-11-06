@@ -111,6 +111,70 @@
                     </div>
                 </div>
             </div>
+
+            <div class="burger-menu">
+                <input id="burger-toggle" type="checkbox" />
+                <label class="burger-button" for="burger-toggle">
+                    <span></span>
+                </label>
+
+                <div class="burger-dropdown-navbar-items">
+                    <button class="burger-menu-button" id="raznoe-button">Разное ▼</button>
+                    <div class="burger-menu-list" id="raznoe-list">
+                        <ul>
+                            <li>@Html.ActionLink("Шары", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Мягкие игрушки", "Contact", "Home")</li>
+                        </ul>
+                    </div>
+                    <button class="burger-menu-button" id="bukety-button">Букеты ▼</button>
+                    <div class="burger-menu-list" id="bukety-list">
+                        <ul>
+                            <li>@Html.ActionLink("Моно Букеты", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Букеты в коробке", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Евро Букеты", "Products   ", "Home")</li>
+                        </ul>
+                    </div>
+                    <button class="burger-menu-button" id="cvety-button">Цветы ▼</button>
+                    <div class="burger-long-menu-list" id="cvety-list">
+                        <ul class="burger-long-item">
+                            <li>@Html.ActionLink("Розы", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Пионы", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Тюльпаны", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Гортензии", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Пионовидные ", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Кустовые ", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Альстромерии", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Гвоздики", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Георгины", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Герберы", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Гипсафилы", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Каллы", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Ирисы", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Ландыши", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Лилии", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Орхидеи", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Подсолнухи", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Ранункулюсы", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Ромашки", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Сирень", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Сухоцветы", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Хризантемы", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Антуриумы", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Амариллисы", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Гладиолусы", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Лизиантусы ", "Products", "Home")</li>
+                        </ul>
+                    </div>
+                    <button class="burger-menu-button" id="menu_button">Меню ▼</button>
+                    <div class="burger-menu-list" id="menu_list">
+                        <ul>
+                            <li>@Html.ActionLink("Главная", "Index", "Home")</li>
+                            <li>@Html.ActionLink("О нас", "About", "Home")</li>
+                            <li>@Html.ActionLink("Контакты", "Contact", "Home")</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="container body-content">
@@ -254,5 +318,35 @@
     @Scripts.Render("~/Content/Site.js")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Скрываем все списки при загрузке страницы
+            $(".burger-menu-list").hide();
+
+            // Обрабатываем клики на кнопках
+            $("#raznoe-button").click(function () {
+                $("#bukety-list, #cvety-list, #menu_list").slideUp();
+                $("#raznoe-list").slideToggle();
+            });
+
+            $("#bukety-button").click(function () {
+                $("#raznoe-list, #cvety-list, #menu_list").slideUp();
+                $("#bukety-list").slideToggle();
+            });
+
+            $("#cvety-button").click(function () {
+                $("#bukety-list, #raznoe-list, #menu_list").slideUp();
+                $("#cvety-list").slideToggle();
+            });
+
+            $("#menu_button").click(function () {
+                $("#bukety-list, #cvety-list, #raznoe-list").slideUp();
+                $("#menu_list").slideToggle();
+            });
+        });
+    </script>
+
 </body>
 </html>

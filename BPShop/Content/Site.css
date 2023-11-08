@@ -428,6 +428,8 @@ hr {
     }
 
     #burger-toggle {
+        position: fixed;
+        top: 0;
         opacity: 0;
     }
 
@@ -440,7 +442,7 @@ hr {
         width: 26px;
         height: 26px;
         cursor: pointer;
-        z-index: 1;
+        z-index: 2;
     }
 
         .burger-button span {
@@ -473,6 +475,7 @@ hr {
     .burger-dropdown-navbar-items {
         display: block;
         position: fixed;
+        overflow-y: auto;
         visibility: hidden;
         top: 0;
         left: -100%;
@@ -501,6 +504,11 @@ hr {
         cursor: pointer;
         border: none;
         z-index: 1;
+    }
+
+    .burger-long-menu-list {
+        max-height: 300px;
+        overflow-y: auto; 
     }
 
     .burger-menu-list li {
@@ -547,11 +555,6 @@ hr {
     .burger-menu-button {
         transition-duration: .25s;
     }
-
-    .burger-long-menu-list {
-        display: none;
-    }
-
 }
 
 @media screen and (max-width : 990px) {

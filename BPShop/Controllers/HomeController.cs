@@ -51,6 +51,7 @@ namespace BPShop.Controllers
 			}
 			if (!string.IsNullOrEmpty(search))
 			{
+				ViewBag.Search = search;
 				products = products.Where(x => x.SearhPrompt.Contains(search));
 			}
 			if (sortType != SortType.defaultSort)

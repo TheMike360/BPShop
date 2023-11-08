@@ -22,7 +22,14 @@
                 </div>
             </div>
             <div class="filter-items">
-                <p>x Цена @ViewBag.MinRange - @ViewBag.MaxRange</p> 
+                @if (ViewBag.MinRange != ViewBag.MinCost || @ViewBag.MaxRange != ViewBag.MaxCost)
+                {
+                    <span onclick="ClearRangeFilter()">x Цена @ViewBag.MinRange - @ViewBag.MaxRange</span>
+                }
+                @if (ViewBag.Search != null)
+                {
+                    <span onclick="ClearSeacrh()">x Поиск: @ViewBag.Search</span>
+                }
             </div>
         </div>
         <div class="search-filter">
@@ -97,25 +104,49 @@
         }
 
         function SetRangeFilter() {
-
-            var searchParams = new URLSearchParams(window.location.search);
-
-            var maxRange = searchParams.get("maxRange");
-            var minRange = searchParams.get("minRange");
-
-            var params = {
-                maxRange: parseInt(document.getElementById("price-max").textContent.replace(/,/g, ''), 10),
-                minRange: parseInt(document.getElementById("price-min").textContent.replace(/,/g, ''), 10),
-            };
+            @if (ViewBag.Search != null)
+            {
+            <text>
+                var params = {
+                    maxRange: parseInt(document.getElementById("price-max").textContent.replace(/,/g, ''), 10),
+                    minRange: parseInt(document.getElementById("price-min").textContent.replace(/,/g, ''), 10),
+                    search: '@ViewBag.Search'
+                };
+            </text>
+            }
+            else
+            {
+            <text>
+                var params = {
+                    maxRange: parseInt(document.getElementById("price-max").textContent.replace(/,/g, ''), 10),
+                    minRange: parseInt(document.getElementById("price-min").textContent.replace(/,/g, ''), 10),
+                };
+            </text>
+            }
             window.location.href = '@Url.Action("Products")?' + $.param(params);
         }
 
         function Search() {
-            console.log(document.getElementById("searchInpt").value);
             var params = {
                 maxRange: parseInt(document.getElementById("price-max").textContent.replace(/,/g, ''), 10),
                 minRange: parseInt(document.getElementById("price-min").textContent.replace(/,/g, ''), 10),
                 search: document.getElementById("searchInpt").value
+            }
+            window.location.href = '@Url.Action("Products")?' + $.param(params);
+        }
+
+        function ClearRangeFilter() {
+            var params = {
+                search: '@ViewBag.Search'
+            }
+            window.location.href = '@Url.Action("Products")?' + $.param(params);
+        }
+
+        function ClearSeacrh() {
+
+            var params = {
+                maxRange: parseInt(document.getElementById("price-max").textContent.replace(/,/g, ''), 10),
+                minRange: parseInt(document.getElementById("price-min").textContent.replace(/,/g, ''), 10),
             }
             window.location.href = '@Url.Action("Products")?' + $.param(params);
         }

@@ -399,39 +399,46 @@ hr {
 .contact-img-link {
     max-width: 120px;
     margin-top: 1rem;
-    margin-right:5rem;
+    margin-right: 5rem;
 }
 
-.burger-dropdown-navbar-items{
-    display:none;
+.burger-dropdown-navbar-items {
+    display: none;
 }
 
-.filter-items {
-    background: rgba(0,0,0,.3);
-    padding: 0 5px;
+.filter-items span {
+    padding: 2px 5px;
     border-radius: 5px;
+    background: rgba(0,0,0,.3);
+    margin: 0 1rem;
     cursor: pointer;
 }
+
+.burger-menu {
+    position: relative;
+}
+
+#burger-toggle {
+    position: fixed;
+    top: 0;
+    opacity: 0;
+}
+
 /*~~~~~~~~~~~~~~~~~~~~mobile version styles~~~~~~~~~~~~~~~~~~*/
 @media screen and (max-width : 720px) {
     .slider {
-            max-width: 100%;
-            margin-top: 3rem;
-        }
+        max-width: 100%;
+        margin-top: 3rem;
+    }
 
-        .product {
-            max-width: 160px;
-        }
+    .product {
+        max-width: 160px;
+    }
 
     .dropdown-navbar-items {
-        display:none;
+        display: none;
     }
 
-    #burger-toggle {
-        position: fixed;
-        top: 0;
-        opacity: 0;
-    }
 
     .burger-button {
         display: flex;
@@ -508,7 +515,7 @@ hr {
 
     .burger-long-menu-list {
         max-height: 300px;
-        overflow-y: auto; 
+        overflow-y: auto;
     }
 
     .burger-menu-list li {

@@ -33,7 +33,7 @@ namespace BPShop.Controllers
 			return View(result);
 		}
 
-		public async Task<ActionResult> Products(decimal maxRange = 0, decimal minRange = 0, SortType sortType = SortType.defaultSort)
+		public async Task<ActionResult> Products(decimal maxRange = 0, decimal minRange = 0, SortType sortType = SortType.defaultSort, string search = "")
 		{
 			IQueryable<Product> products = context.Products.OrderByDescending(x => x.ID);
 			//для range slider цены
@@ -48,6 +48,10 @@ namespace BPShop.Controllers
 				ViewBag.MaxRange = maxRange;
 				ViewBag.MinRange = minRange;
 				products = products.Where(x => x.Cost >= minRange && x.Cost <= maxRange);
+			}
+			if (!string.IsNullOrEmpty(search))
+			{
+				products = products.Where(x => x.SearhPrompt.Contains(search));
 			}
 			if (sortType != SortType.defaultSort)
 			{

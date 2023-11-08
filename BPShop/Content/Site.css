@@ -405,11 +405,16 @@ hr {
 .burger-dropdown-navbar-items{
     display:none;
 }
-/*~~~~~~~~~~~~~~~~~~~~mobile version styles~~~~~~~~~~~~~~~~~~*/
- 
 
+.filter-items {
+    background: rgba(0,0,0,.3);
+    padding: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+/*~~~~~~~~~~~~~~~~~~~~mobile version styles~~~~~~~~~~~~~~~~~~*/
 @media screen and (max-width : 720px) {
-        .slider {
+    .slider {
             max-width: 100%;
             margin-top: 3rem;
         }

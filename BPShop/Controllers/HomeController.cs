@@ -80,6 +80,11 @@ namespace BPShop.Controllers
 			return View(result);
 		}
 
+		public async Task<ActionResult> ShowProduct(int Id)
+        {
+			return View();
+        }
+
 		public ActionResult About()
 		{
 			return View();

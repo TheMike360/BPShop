@@ -45,12 +45,19 @@
         </div>
     </div>
 
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Содержимое модального окна здесь</p>
+        </div>
+    </div>
+
     <div class="container-products">
         @foreach (var product in Model)
         {
             <div class="product">
                 <img src="@product.ImgRef" alt="Товар">
-                <div style="padding: 1rem;">
+                <div style="padding: 1rem;" onclick="showProduct(@product.ID)">
                     <h3>@product.Name</h3>
                     <p class="price">Цена: @product.Cost</p>
                     <button class="order-button">Заказать</button>
@@ -65,7 +72,57 @@
 
 
     <script>
+        var modal = document.getElementById('myModal');
+        var span = document.getElementsByClassName('close')[0];
 
+        span.onclick = function () {
+            modal.style.display = 'none';
+        };
+
+        function showProduct(id) {
+           
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            };
+
+
+            $.get('@Url.Action("ShowProduct")' + '?Id=' + id,
+                function (data) {
+                    $('#dialogContent').html(data);
+                    modal.style.display = 'block';
+                })
+                .fail(function () {
+                    alert("Не удалось открыть информацию о продукте");
+                    return false;
+                })
+                .done(function () {
+                    return true;
+                });
+        }
+
+        //drop menu
+        var showDropdownButton = document.getElementById("showDropdown");
+        var dropdown = document.getElementById("dropdown");
+        var pricema = document.getElementById("price-max");
+
+        showDropdownButton.addEventListener("click", function () {
+            if (dropdown.style.display === "none" || dropdown.style.display === "") {
+                dropdown.style.display = "block";
+            } else {
+                dropdown.style.display = "none";
+            }
+        });
+        dropdown.addEventListener("click", function (event) {
+            event.stopPropagation();
+        });
+        document.addEventListener("click", function (event) {
+            if (event.target !== showDropdownButton && event.target !== dropdown
+                && event.target !== priceRange && event.target !== pricema) {
+                dropdown.style.display = "none";
+            }
+        });
         //price range
         var isRangeChanged = false;
         var priceRange = document.getElementById("price-range2");

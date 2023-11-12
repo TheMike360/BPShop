@@ -82,7 +82,8 @@ namespace BPShop.Controllers
 
 		public async Task<ActionResult> ShowProduct(int Id)
         {
-			return View();
+			Product Item = await context.Products.FirstOrDefaultAsync(x => x.ID	== Id);
+			return View(Item);
         }
 
 		public ActionResult About()

@@ -440,21 +440,100 @@ hr {
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: #fff;
-    padding: 20px;
     border-radius: 5px;
 }
 
 .close {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 0px;
+    right: 5px;
     font-size: 20px;
     cursor: pointer;
 }
 
-/*~~~~~~~~~~~~~~~~~~~~mobile version styles~~~~~~~~~~~~~~~~~~*/
-@media screen and (max-width : 720px) {
-    .slider {
+.card {
+    width: 400px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+    padding: 20px;
+}
+
+    .card img {
+        width: 100%;
+        height: auto;
+        border-radius: 5px;
+    }
+
+.price {
+    margin-top: 10px;
+    font-size: 18px;
+    color: #333;
+}
+
+.description {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #666;
+}
+
+.availability {
+    margin-top: 10px;
+    font-size: 20px;
+    color: #d26b57;
+    font-weight: bold;
+}
+
+.quantity {
+    margin-top: 10px;
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-width: 100px;
+}
+
+    .quantity button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        padding: 4px 8px;
+        width: 25px;
+        height: 30px;
+    }
+
+    .quantity input {
+        width: 30px;
+        text-align: center;
+        border: none;
+        margin: 0;
+    }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+.card-btns {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+
+    .card-btns .order-button {
+        margin-top: 1rem;
+    }
+    /*~~~~~~~~~~~~~~~~~~~~mobile version styles~~~~~~~~~~~~~~~~~~*/
+    @media screen and (max-width : 720px) {
+        .slider {
         max-width: 100%;
         margin-top: 3rem;
     }

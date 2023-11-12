@@ -46,21 +46,19 @@
     </div>
 
     <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <p>Содержимое модального окна здесь</p>
+        <div class="modal-content" id="dialogContent">
         </div>
     </div>
 
     <div class="container-products">
         @foreach (var product in Model)
         {
-            <div class="product">
+            <div class="product" onclick="showProduct(@product.ID)">
                 <img src="@product.ImgRef" alt="Товар">
                 <div style="padding: 1rem;" onclick="showProduct(@product.ID)">
                     <h3>@product.Name</h3>
                     <p class="price">Цена: @product.Cost</p>
-                    <button class="order-button">Заказать</button>
+                    <button class="order-button" id="orderBtn" onclick="orderProduct(event)">Заказать</button>
                 </div>
             </div>
         }
@@ -73,25 +71,28 @@
 
     <script>
         var modal = document.getElementById('myModal');
-        var span = document.getElementsByClassName('close')[0];
-
-        span.onclick = function () {
-            modal.style.display = 'none';
-        };
+        var orderBtn = document.getElementById("orderBtn");
+        orderBtn.addEventListener("click", function (event) {
+            debugger
+            event.stopPropagation();
+        });
 
         function showProduct(id) {
-           
             window.onclick = function (event) {
                 if (event.target == modal) {
                     modal.style.display = 'none';
                 }
             };
 
-
             $.get('@Url.Action("ShowProduct")' + '?Id=' + id,
                 function (data) {
                     $('#dialogContent').html(data);
                     modal.style.display = 'block';
+
+                    var span = document.getElementsByClassName('close')[0];
+                    span.onclick = function () {
+                        modal.style.display = 'none';
+                    };
                 })
                 .fail(function () {
                     alert("Не удалось открыть информацию о продукте");
@@ -100,6 +101,11 @@
                 .done(function () {
                     return true;
                 });
+        }
+
+        function orderProduct(event) {
+
+            event.stopPropagation();
         }
 
         //drop menu

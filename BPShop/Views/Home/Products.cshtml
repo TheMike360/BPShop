@@ -4,6 +4,17 @@
 }
 
 <div class="container body-content">
+    @if (ViewBag.IsHaveCart)
+    {
+        <div class="cartBtn" onclick="showCart()">
+            Cart
+        </div>
+    }
+
+    <div id="myModal" class="modal">
+        <div class="modal-content" id="dialogContent">
+        </div>
+    </div>
 
     <div>
         <h2 class="fat-h text-center">Букеты с доставкой в Алматы</h2>
@@ -45,11 +56,6 @@
         </div>
     </div>
 
-    <div id="myModal" class="modal">
-        <div class="modal-content" id="dialogContent">
-        </div>
-    </div>
-
     <div class="container-products">
         @foreach (var product in Model)
         {
@@ -58,7 +64,7 @@
                 <div style="padding: 1rem;" onclick="showProduct(@product.ID)">
                     <h3>@product.Name</h3>
                     <p class="price">Цена: @product.Cost</p>
-                    <button class="order-button" id="orderBtn" onclick="orderProduct(event)">Заказать</button>
+                    <button class="order-button" id="orderBtn" onclick="orderProduct(event, @product.ID)">Заказать</button>
                 </div>
             </div>
         }
@@ -71,11 +77,6 @@
 
     <script>
         var modal = document.getElementById('myModal');
-        var orderBtn = document.getElementById("orderBtn");
-        orderBtn.addEventListener("click", function (event) {
-            debugger
-            event.stopPropagation();
-        });
 
         function showProduct(id) {
             window.onclick = function (event) {
@@ -103,8 +104,45 @@
                 });
         }
 
-        function orderProduct(event) {
+        function showCart() {
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            };
 
+            $.get('@Url.Action("Cart")',
+                function (data) {
+                    $('#dialogContent').html(data);
+                    modal.style.display = 'block';
+
+                    var span = document.getElementsByClassName('close')[0];
+                    span.onclick = function () {
+                        modal.style.display = 'none';
+                    };
+                })
+                .fail(function () {
+                    alert("Не удалось открыть корзину");
+                    return false;
+                })
+                .done(function () {
+                    return true;
+                });
+        }
+
+        function orderProduct(event, id) {
+            $.get('@Url.Action("AddToCart")' + '?productId=' + id,
+                function (data) {
+                    if (data == -100)
+                        alert("Достигнут лимит в корзине");
+                })
+                .fail(function () {
+                    alert("Ошибка при добавлении в корзину");
+                    return false;
+                })
+                .done(function () {
+                    return true;
+                });
             event.stopPropagation();
         }
 

@@ -256,6 +256,7 @@
       <DependentUpon>20231103161521_addRows.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\MYContextModelSnapshot.cs" />
+    <Compile Include="Models\CartModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -307,10 +308,10 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Products.cshtml" />
     <Content Include="Views\Home\ShowProduct.cshtml" />
+    <Content Include="Views\Home\Cart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

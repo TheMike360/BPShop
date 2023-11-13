@@ -531,9 +531,18 @@ input::-webkit-inner-spin-button {
     .card-btns .order-button {
         margin-top: 1rem;
     }
-    /*~~~~~~~~~~~~~~~~~~~~mobile version styles~~~~~~~~~~~~~~~~~~*/
-    @media screen and (max-width : 720px) {
-        .slider {
+
+.cartBtn {
+    height: 100px;
+    width: 100px;
+    background: red;
+    position: fixed;
+    top: 10vh;
+    right: 2rem;
+}
+/*~~~~~~~~~~~~~~~~~~~~mobile version styles~~~~~~~~~~~~~~~~~~*/
+@media screen and (max-width : 720px) {
+    .slider {
         max-width: 100%;
         margin-top: 3rem;
     }

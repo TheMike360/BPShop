@@ -1,6 +1,7 @@
 ﻿using BPShop.Context;
 using BPShop.Enities;
 using BPShop.Enums;
+using BPShop.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -75,8 +76,10 @@ namespace BPShop.Controllers
 
 			//вид сортировки
 			ViewBag.SortType = sortType;
+			var cart = GetCart();
+			ViewBag.IsHaveCart = cart.Count() > 0;
 
-			List<Product> result = await products.ToListAsync();
+			List <Product> result = await products.ToListAsync();
 			return View(result);
 		}
 
@@ -86,6 +89,35 @@ namespace BPShop.Controllers
 			return View(Item);
         }
 
+		public ActionResult Cart()
+		{
+			List<CartModel> cart = GetCart();
+			return View(cart);
+		}
+
+		public int AddToCart(int productId, int quantity = 1)
+		{
+			List<CartModel> cart = GetCart();
+			if (cart.Count() > 100)
+			{
+				return -100;
+			}
+
+			CartModel existingItem = cart.FirstOrDefault(item => item.ProductId == productId);
+
+			if (existingItem != null)
+			{
+				existingItem.Quantity += quantity;
+			}
+			else
+			{
+				cart.Add(new CartModel { ProductId = productId, Quantity = quantity });
+			}
+
+			return 0;
+		}
+
+
 		public ActionResult About()
 		{
 			return View();
@@ -94,6 +126,17 @@ namespace BPShop.Controllers
 		public ActionResult Contact()
 		{
 			return View();
+		}
+
+		private List<CartModel> GetCart()
+		{
+			var cart = Session["Cart"] as List<CartModel>;
+			if (cart == null)
+			{
+				cart = new List<CartModel>();
+				Session["Cart"] = cart;
+			}
+			return cart;
 		}
 	}
 }

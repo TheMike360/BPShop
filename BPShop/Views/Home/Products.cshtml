@@ -7,9 +7,12 @@
     @if (ViewBag.IsHaveCart)
     {
         <div class="cartBtn" onclick="showCart()">
-            Cart
+            <img src="~/Content/imgs/bag.png" alt="Cart" />
         </div>
     }
+
+    <div class="notify-block">
+    </div>
 
     <div id="myModal" class="modal">
         <div class="modal-content" id="dialogContent">
@@ -59,16 +62,18 @@
     <div class="container-products">
         @foreach (var product in Model)
         {
-            <div class="product" onclick="showProduct(@product.ID)">
+            <div class="product flip-scale-2-hor-top" onclick="showProduct(@product.ID)">
                 <img src="@product.ImgRef" alt="Товар">
                 <div style="padding: 1rem;" onclick="showProduct(@product.ID)">
                     <h3>@product.Name</h3>
                     <p class="price">Цена: @product.Cost</p>
-                    <button class="order-button" id="orderBtn" onclick="orderProduct(event, @product.ID)">Заказать</button>
+                    <button class="order-button" id="orderBtn" onclick="orderProduct(this, event, @product.ID)">Заказать</button>
                 </div>
             </div>
         }
     </div>
+
+
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
@@ -130,7 +135,19 @@
                 });
         }
 
-        function orderProduct(event, id) {
+        function orderProduct(button, event, id) {
+            var mainElement = document.querySelector('.notify-block');
+            var newDiv = document.createElement('div');
+            newDiv.innerHTML = `
+                <div class="notify-item">
+                    Заказ добавлен
+                </div >`;
+            mainElement.prepend(newDiv);
+
+            setTimeout(function () {
+                newDiv.remove();
+            }, 2000);
+
             $.get('@Url.Action("AddToCart")' + '?productId=' + id,
                 function (data) {
                     if (data == -100)

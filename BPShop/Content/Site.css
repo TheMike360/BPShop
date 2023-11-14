@@ -515,6 +515,7 @@ hr {
         border: none;
         margin: 0;
     }
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     /* display: none; <- Crashes Chrome on hover */
@@ -533,13 +534,47 @@ input::-webkit-inner-spin-button {
     }
 
 .cartBtn {
-    height: 100px;
-    width: 100px;
-    background: red;
+    height: 80px;
+    width: 80px;
+    background: #b7b7b7;
+    border-radius: 20px;
+    padding: 1rem;
     position: fixed;
     top: 10vh;
     right: 2rem;
+    cursor: pointer;
+    z-index: 99;
 }
+
+#animated-product {
+    position: fixed;
+    top: 0;
+    right: 0;
+    opacity: 0;
+    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+}
+
+    #animated-product.show {
+        opacity: 1;
+        transform: translate(-100%, -100%) scale(0.2);
+    }
+
+.notify-block {
+    position: fixed;
+    top: 10rem;
+    right: 10rem;
+    z-index: 99;
+}
+
+.notify-item {
+    animation: swing-top-fwd 1s   both;
+    padding: 1rem 2rem;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px black;
+    margin: 1rem;
+}
+
 /*~~~~~~~~~~~~~~~~~~~~mobile version styles~~~~~~~~~~~~~~~~~~*/
 @media screen and (max-width : 720px) {
     .slider {
@@ -685,5 +720,32 @@ input::-webkit-inner-spin-button {
         display: flex;
         flex-direction: column;
         align-items: center;
+    }
+}
+
+@keyframes swing-top-fwd {
+    0% {
+        transform: translateX(100%) rotateX(180deg);
+        transform-origin: top;
+    }
+
+    35% {
+        transform: translateX(-40%) rotateX(180deg);
+        transform-origin: top;
+    }
+
+    49% {
+        transform: translateX(0) rotateX(180deg);
+        transform-origin: top;
+    }
+
+    50% {
+        transform: rotateX(180deg);
+        transform-origin: top;
+    }
+
+    100% {
+        transform: rotateX(0);
+        transform-origin: top;
     }
 }

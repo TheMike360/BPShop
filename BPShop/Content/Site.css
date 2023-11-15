@@ -402,11 +402,11 @@ hr {
     margin-right:5rem;
 }
 
-.burger-dropdown-navbar-items{
+.burger-menu{
     display:none;
 }
+
 /*~~~~~~~~~~~~~~~~~~~~mobile version styles~~~~~~~~~~~~~~~~~~*/
- 
 
 @media screen and (max-width : 720px) {
         .slider {

@@ -81,5 +81,10 @@ namespace BPShop.Controllers
 		{
 			return View();
 		}
+
+		public ActionResult AdminPanel()
+        {
+			return View();
+        }
 	}
 }

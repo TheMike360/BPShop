@@ -1,0 +1,111 @@
+﻿
+@{
+    ViewBag.Title = "AdminPanel";
+    Layout = null;
+}
+
+<style>
+    body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-bottom: 20px;
+        font-family: 'CenturyGothic', Arial, sans-serif;
+        color: black;
+        background-color: #f1f6ce;
+        flex-direction: column;
+    }
+
+    form {
+        text-align: center;
+        margin-top: 15px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input {
+        margin-bottom: 5px;
+    }
+
+    input[type="submit"] {
+        background: #d26b57;
+        width: 250px;
+        height: 50px;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 10px;
+        transition-duration: 0.3s;
+        cursor: pointer;
+        border: none;
+        margin-bottom: 10px;
+    }
+
+    .navPanel {
+        display: flex;
+        align-items: center;
+        position: absolute;
+        flex-direction: column;
+        margin-left: 20px;
+        top: 25%;
+        left: 15px;
+    }
+
+        .navPanel input[type="button"] {
+            margin-bottom: 10px;
+            background: #d26b57;
+            width: 180px;
+            height: 50px;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 10px;
+            cursor: pointer;
+            border: none;
+            margin-bottom: 50px;
+        }
+
+</style>
+
+<h1>AdminPanel</h1>
+
+<div class="navPanel">
+    <input type="button" value="Продукты" />
+    <input type="button" value="Добавить товары" />
+</div>
+
+<form method="post" asp-asp-controller="Contacts" asp-action="Check">
+    <label for="Name"><h3>Введите название продукта</h3></label>
+    <input type="text" name="Name">
+
+    <label for="Cost"><h3>Введите цену продукта</h3></label>
+    <input type="number" name="Cost">
+
+    <label for="Description"><h3>Опишите продукт</h3></label>
+    <input type="text" name="Description">
+
+    <label for="Count"><h3>Введите количество цветов</h3></label>
+    <input type="number" name="Count">
+
+    <label for="CountFlowerInBouquet"><h3>Введите количество цветов в букете</h3></label>
+    <input type="number" name="CountFlowerInBouquet" />
+
+    <label for="Count"><h3>Введите тип продукта</h3></label>
+    <input type="text" name="ProductType" value="" />
+
+    <label for="SearchPrompt"><h3>Поиск товара</h3></label>
+    <input type="search" name="SearchPrompt" value="" />
+
+    <label for="FlowersType"><h3>Введите тип цветов</h3></label>
+    <input type="text" name="FlowersType" value="" />
+
+    <label for="ImgRef"><h3>Загрузите картинку цветов</h3></label>
+    <input type="file" name="ImgRef" value="" />
+</form>
+
+<input type="submit" value="Добавить" />
+
+
+
+

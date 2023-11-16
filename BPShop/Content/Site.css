@@ -565,6 +565,9 @@ input::-webkit-inner-spin-button {
     right: 10rem;
     z-index: 99;
 }
+.burger-menu{
+    display:none;
+}
 
 .notify-item {
     animation: swing-top-fwd 1s   both;

@@ -16,7 +16,21 @@ $('.slider').slick({
     ]
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+});
 
 
+
+function incrementQuantity() {
+    var quantityInput = document.getElementById("quantity");
+    quantityInput.value = parseInt(quantityInput.value, 10) + 1;
+}
+
+function decrementQuantity() {
+    var quantityInput = document.getElementById("quantity");
+    if (parseInt(quantityInput.value, 10) > 1) {
+        quantityInput.value = parseInt(quantityInput.value, 10) - 1;
+    }
+}
 
 

@@ -1,6 +1,7 @@
 ﻿using BPShop.Context;
 using BPShop.Enities;
 using BPShop.Enums;
+using BPShop.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,16 +34,26 @@ namespace BPShop.Controllers
 			return View(result);
 		}
 
-		public async Task<ActionResult> Products(decimal maxRange = 0, decimal minRange = 0, SortType sortType = SortType.defaultSort)
+		public async Task<ActionResult> Products(decimal maxRange = 0, decimal minRange = 0, SortType sortType = SortType.defaultSort, string search = "")
 		{
 			IQueryable<Product> products = context.Products.OrderByDescending(x => x.ID);
 			//для range slider цены
 			ViewBag.MaxCost = (int)products.Select(x => x.Cost).Max();
 			ViewBag.MinCost = (int)products.Select(x => x.Cost).Min();
 
+			ViewBag.MaxRange = ViewBag.MaxCost;
+			ViewBag.MinRange = ViewBag.MinCost;
+
 			if (minRange != 0 && maxRange != 0)
 			{
-				products = products.Where(x => x.Cost >= minRange && x.Cost <= minRange);
+				ViewBag.MaxRange = maxRange;
+				ViewBag.MinRange = minRange;
+				products = products.Where(x => x.Cost >= minRange && x.Cost <= maxRange);
+			}
+			if (!string.IsNullOrEmpty(search))
+			{
+				ViewBag.Search = search;
+				products = products.Where(x => x.SearhPrompt.Contains(search));
 			}
 			if (sortType != SortType.defaultSort)
 			{
@@ -64,13 +75,48 @@ namespace BPShop.Controllers
 			}
 
 			//вид сортировки
-			ViewBag.MaxRange = maxRange;
-			ViewBag.MinRange = minRange;
 			ViewBag.SortType = sortType;
+			var cart = GetCart();
+			ViewBag.IsHaveCart = cart.Count() > 0;
 
-			List<Product> result = await products.ToListAsync();
+			List <Product> result = await products.ToListAsync();
 			return View(result);
 		}
+
+		public async Task<ActionResult> ShowProduct(int Id)
+        {
+			Product Item = await context.Products.FirstOrDefaultAsync(x => x.ID	== Id);
+			return View(Item);
+        }
+
+		public ActionResult Cart()
+		{
+			List<CartModel> cart = GetCart();
+			return View(cart);
+		}
+
+		public int AddToCart(int productId, int quantity = 1)
+		{
+			List<CartModel> cart = GetCart();
+			if (cart.Count() > 100)
+			{
+				return -100;
+			}
+
+			CartModel existingItem = cart.FirstOrDefault(item => item.ProductId == productId);
+
+			if (existingItem != null)
+			{
+				existingItem.Quantity += quantity;
+			}
+			else
+			{
+				cart.Add(new CartModel { ProductId = productId, Quantity = quantity });
+			}
+
+			return 0;
+		}
+
 
 		public ActionResult About()
 		{
@@ -80,6 +126,17 @@ namespace BPShop.Controllers
 		public ActionResult Contact()
 		{
 			return View();
+		}
+
+		private List<CartModel> GetCart()
+		{
+			var cart = Session["Cart"] as List<CartModel>;
+			if (cart == null)
+			{
+				cart = new List<CartModel>();
+				Session["Cart"] = cart;
+			}
+			return cart;
 		}
 
 		public ActionResult AdminPanel()

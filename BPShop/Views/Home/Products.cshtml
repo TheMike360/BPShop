@@ -4,6 +4,20 @@
 }
 
 <div class="container body-content">
+    @if (ViewBag.IsHaveCart)
+    {
+        <div class="cartBtn" onclick="showCart()">
+            <img src="~/Content/imgs/bag.png" alt="Cart" />
+        </div>
+    }
+
+    <div class="notify-block">
+    </div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content" id="dialogContent">
+        </div>
+    </div>
 
     <div>
         <h2 class="fat-h text-center">Букеты с доставкой в Алматы</h2>
@@ -18,14 +32,24 @@
                     <div id="price-min">5,000</div>
                     <span>&nbsp — &nbsp</span>
                     <div id="price-max">100,000</div>
-                    <button class="border-btn" onclick="">ok</button>
+                    <button class="border-btn" onclick="SetRangeFilter()">ok</button>
                 </div>
+            </div>
+            <div class="filter-items">
+                @if (ViewBag.MinRange != ViewBag.MinCost || @ViewBag.MaxRange != ViewBag.MaxCost)
+                {
+                    <span onclick="ClearRangeFilter()">x Цена @ViewBag.MinRange - @ViewBag.MaxRange</span>
+                }
+                @if (ViewBag.Search != null)
+                {
+                    <span onclick="ClearSeacrh()">x Поиск: @ViewBag.Search</span>
+                }
             </div>
         </div>
         <div class="search-filter">
             <div class="search-input-div">
-                <input type="text" value="" />
-                <svg class="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 88">
+                <input type="text" value="" id="searchInpt" />
+                <svg class="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 88" onclick="Search()">
                     <path fill="#757575" d="M85 31.1c-.5-8.7-4.4-16.6-10.9-22.3C67.6 3 59.3 0 50.6.6c-8.7.5-16.7 4.4-22.5 11-11.2
                               12.7-10.7 31.7.6 43.9l-5.3 6.1-2.5-2.2-17.8 20 9 8.1 17.8-20.2-2.1-1.8 5.3-6.1c5.8 4.2 12.6 6.3 19.3 6.3 9 0
                               18-3.7 24.4-10.9 5.9-6.6 8.8-15 8.2-23.7zM72.4 50.8c-9.7 10.9-26.5 11.9-37.6 2.3-10.9-9.8-11.9-26.6-2.3-37.6
@@ -38,16 +62,18 @@
     <div class="container-products">
         @foreach (var product in Model)
         {
-            <div class="product">
+            <div class="product flip-scale-2-hor-top" onclick="showProduct(@product.ID)">
                 <img src="@product.ImgRef" alt="Товар">
-                <div style="padding: 1rem;">
+                <div style="padding: 1rem;" onclick="showProduct(@product.ID)">
                     <h3>@product.Name</h3>
                     <p class="price">Цена: @product.Cost</p>
-                    <button class="order-button">Заказать</button>
+                    <button class="order-button" id="orderBtn" onclick="orderProduct(this, event, @product.ID)">Заказать</button>
                 </div>
             </div>
         }
     </div>
+
+
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
@@ -55,57 +81,86 @@
 
 
     <script>
-        //slider
-        $('.slider').slick({
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            dots: true,
-            autoplay: true,
-            autoplaySpeed: 4000,
-            responsive: [
-                {
-                    breakpoint: 1300,
-                    settings: {
-                        speed: 600,
-                        cssEase: 'linear'
-                    }
+        var modal = document.getElementById('myModal');
+
+        function showProduct(id) {
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
                 }
-            ]
-        });
+            };
 
-        //price range
-        var priceRange = document.getElementById("price-range2");
-        var priceMin = document.getElementById("price-min");
-        var priceMax = document.getElementById("price-max");
+            $.get('@Url.Action("ShowProduct")' + '?Id=' + id,
+                function (data) {
+                    $('#dialogContent').html(data);
+                    modal.style.display = 'block';
 
-        noUiSlider.create(priceRange, {
-                start: [@ViewBag.MinCost, @ViewBag.MaxCost],
-                connect: true,
-                range: {
-                    'min': @ViewBag.MinCost,
-                    'max': @ViewBag.MaxCost
-                },
-                format: {
-                    to: function (value) {
-                        return Math.round(value);
-                    },
-                    from: function (value) {
-                        return value;
-                    }
+                    var span = document.getElementsByClassName('close')[0];
+                    span.onclick = function () {
+                        modal.style.display = 'none';
+                    };
+                })
+                .fail(function () {
+                    alert("Не удалось открыть информацию о продукте");
+                    return false;
+                })
+                .done(function () {
+                    return true;
+                });
+        }
+
+        function showCart() {
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
                 }
-            });
+            };
 
-        priceRange.noUiSlider.on('update', function (values, handle) {
-            if (handle === 0) {
-                priceMin.textContent = addCommas(values[0]);
-            }
-            if (handle === 1) {
-                priceMax.textContent = addCommas(values[1]);
-            }
-        });
+            $.get('@Url.Action("Cart")',
+                function (data) {
+                    $('#dialogContent').html(data);
+                    modal.style.display = 'block';
 
-        function addCommas(number) {
-            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    var span = document.getElementsByClassName('close')[0];
+                    span.onclick = function () {
+                        modal.style.display = 'none';
+                    };
+                })
+                .fail(function () {
+                    alert("Не удалось открыть корзину");
+                    return false;
+                })
+                .done(function () {
+                    return true;
+                });
+        }
+
+        function orderProduct(button, event, id) {
+            var mainElement = document.querySelector('.notify-block');
+            var newDiv = document.createElement('div');
+            newDiv.innerHTML = `
+                <div class="notify-item">
+                    Заказ добавлен
+                </div >`;
+            mainElement.prepend(newDiv);
+
+            setTimeout(function () {
+                newDiv.remove();
+            }, 2000);
+
+            $.get('@Url.Action("AddToCart")' + '?productId=' + id,
+                function (data) {
+                    if (data == -100)
+                        alert("Достигнут лимит в корзине");
+                })
+                .fail(function () {
+                    alert("Ошибка при добавлении в корзину");
+                    return false;
+                })
+                .done(function () {
+                    return true;
+                });
+            event.stopPropagation();
         }
 
         //drop menu
@@ -129,6 +184,90 @@
                 dropdown.style.display = "none";
             }
         });
+        //price range
+        var isRangeChanged = false;
+        var priceRange = document.getElementById("price-range2");
+        var priceMin = document.getElementById("price-min");
+        var priceMax = document.getElementById("price-max");
+
+        noUiSlider.create(priceRange, {
+                start: [@ViewBag.MinRange, @ViewBag.MaxRange],
+                connect: true,
+                range: {
+                    'min': @ViewBag.MinCost,
+                    'max': @ViewBag.MaxCost
+                },
+                format: {
+                    to: function (value) {
+                        return Math.round(value);
+                    },
+                    from: function (value) {
+                        return value;
+                    }
+                }
+            });
+
+        priceRange.noUiSlider.on('update', function (values, handle) {
+            isRangeChanged = true;
+            if (handle === 0) {
+                priceMin.textContent = addCommas(values[0]);
+            }
+            if (handle === 1) {
+                priceMax.textContent = addCommas(values[1]);
+            }
+        });
+
+        function addCommas(number) {
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        function SetRangeFilter() {
+            @if (ViewBag.Search != null)
+            {
+            <text>
+                var params = {
+                    maxRange: parseInt(document.getElementById("price-max").textContent.replace(/,/g, ''), 10),
+                    minRange: parseInt(document.getElementById("price-min").textContent.replace(/,/g, ''), 10),
+                    search: '@ViewBag.Search'
+                };
+            </text>
+            }
+            else
+            {
+            <text>
+                var params = {
+                    maxRange: parseInt(document.getElementById("price-max").textContent.replace(/,/g, ''), 10),
+                    minRange: parseInt(document.getElementById("price-min").textContent.replace(/,/g, ''), 10),
+                };
+            </text>
+            }
+            window.location.href = '@Url.Action("Products")?' + $.param(params);
+        }
+
+        function Search() {
+            var params = {
+                maxRange: parseInt(document.getElementById("price-max").textContent.replace(/,/g, ''), 10),
+                minRange: parseInt(document.getElementById("price-min").textContent.replace(/,/g, ''), 10),
+                search: document.getElementById("searchInpt").value
+            }
+            window.location.href = '@Url.Action("Products")?' + $.param(params);
+        }
+
+        function ClearRangeFilter() {
+            var params = {
+                search: '@ViewBag.Search'
+            }
+            window.location.href = '@Url.Action("Products")?' + $.param(params);
+        }
+
+        function ClearSeacrh() {
+
+            var params = {
+                maxRange: parseInt(document.getElementById("price-max").textContent.replace(/,/g, ''), 10),
+                minRange: parseInt(document.getElementById("price-min").textContent.replace(/,/g, ''), 10),
+            }
+            window.location.href = '@Url.Action("Products")?' + $.param(params);
+        }
 
     </script>
 

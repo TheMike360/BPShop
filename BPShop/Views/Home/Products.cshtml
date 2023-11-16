@@ -1,15 +1,16 @@
 ﻿
 @{
     ViewBag.Title = "Products";
+
+    string isVisible = ViewBag.IsHaveCart ? "" : "none";
 }
 
 <div class="container body-content">
-    @if (ViewBag.IsHaveCart)
-    {
-        <div class="cartBtn" onclick="showCart()">
+        <div class="cartBtn" onclick="showCart()" style="display: @isVisible">
             <img src="~/Content/imgs/bag.png" alt="Cart" />
+            <p id="cartCounter">2</p>
         </div>
-    }
+    
 
     <div class="notify-block">
     </div>
@@ -150,6 +151,7 @@
 
             $.get('@Url.Action("AddToCart")' + '?productId=' + id,
                 function (data) {
+                    $('.cartBtn').show();
                     if (data == -100)
                         alert("Достигнут лимит в корзине");
                 })

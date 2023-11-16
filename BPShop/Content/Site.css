@@ -546,6 +546,12 @@ input::-webkit-inner-spin-button {
     z-index: 99;
 }
 
+#cartCounter {
+    background: red;
+    padding: 1rem;
+    border-radius: 5px;
+}
+
 #animated-product {
     position: fixed;
     top: 0;

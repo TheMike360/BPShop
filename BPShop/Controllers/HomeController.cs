@@ -138,5 +138,10 @@ namespace BPShop.Controllers
 			}
 			return cart;
 		}
+
+		public ActionResult AdminPanel()
+        {
+			return View();
+        }
 	}
 }

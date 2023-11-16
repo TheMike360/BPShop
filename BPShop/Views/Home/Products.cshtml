@@ -8,7 +8,9 @@
 <div class="container body-content">
         <div class="cartBtn" onclick="showCart()" style="display: @isVisible">
             <img src="~/Content/imgs/bag.png" alt="Cart" />
-            <p id="cartCounter">2</p>
+            <div id="cartCounter">
+                <p id="countValue">@ViewBag.CartCount</p>
+            </div>
         </div>
     
 
@@ -139,11 +141,6 @@
         function orderProduct(button, event, id) {
             var mainElement = document.querySelector('.notify-block');
             var newDiv = document.createElement('div');
-            newDiv.innerHTML = `
-                <div class="notify-item">
-                    Заказ добавлен
-                </div >`;
-            mainElement.prepend(newDiv);
 
             setTimeout(function () {
                 newDiv.remove();
@@ -151,9 +148,22 @@
 
             $.get('@Url.Action("AddToCart")' + '?productId=' + id,
                 function (data) {
-                    $('.cartBtn').show();
-                    if (data == -100)
-                        alert("Достигнут лимит в корзине");
+                    if (data == -100) {
+                        newDiv.innerHTML = `
+                        <div class="notify-item red">
+                            Достигнут лимит в корзине
+                        </div >`;
+                        mainElement.prepend(newDiv);
+                    }
+                    else {
+                        $('.cartBtn').show();
+                        $("#countValue").text(parseInt($("#countValue").text()) + 1);
+                        newDiv.innerHTML = `
+                        <div class="notify-item">
+                            Заказ добавлен
+                        </div >`;
+                        mainElement.prepend(newDiv);
+                    }
                 })
                 .fail(function () {
                     alert("Ошибка при добавлении в корзину");

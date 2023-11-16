@@ -548,9 +548,18 @@ input::-webkit-inner-spin-button {
 
 #cartCounter {
     background: red;
-    padding: 1rem;
+    padding: 2px 1rem;
     border-radius: 5px;
+    width: 10px;
+    display: flex;
+    justify-content: center;
+    
 }
+
+    #cartCounter p {
+        margin: 0;
+        color: white;
+    }
 
 #animated-product {
     position: fixed;
@@ -571,22 +580,27 @@ input::-webkit-inner-spin-button {
     right: 10rem;
     z-index: 99;
 }
-.burger-menu{
-    display:none;
+
+.burger-menu {
+    display: none;
 }
 
 .notify-item {
-    animation: swing-top-fwd 1s   both;
+    animation: swing-top-fwd 1s both;
     padding: 1rem 2rem;
     background: white;
     border-radius: 5px;
     box-shadow: 1px 1px 5px black;
     margin: 1rem;
 }
+    .notify-item.red {
+        background: #d26b57;
+        color: white;
+    }
 
-/*~~~~~~~~~~~~~~~~~~~~mobile version styles~~~~~~~~~~~~~~~~~~*/
-@media screen and (max-width : 720px) {
-    .slider {
+    /*~~~~~~~~~~~~~~~~~~~~mobile version styles~~~~~~~~~~~~~~~~~~*/
+    @media screen and (max-width : 720px) {
+        .slider {
         max-width: 100%;
         margin-top: 3rem;
     }

@@ -77,7 +77,9 @@ namespace BPShop.Controllers
 			//вид сортировки
 			ViewBag.SortType = sortType;
 			var cart = GetCart();
+
 			ViewBag.IsHaveCart = cart.Count() > 0;
+			ViewBag.CartCount = countCartItems(cart);
 
 			List <Product> result = await products.ToListAsync();
 			return View(result);
@@ -98,7 +100,7 @@ namespace BPShop.Controllers
 		public int AddToCart(int productId, int quantity = 1)
 		{
 			List<CartModel> cart = GetCart();
-			if (cart.Count() > 100)
+			if (countCartItems(cart) > 100)
 			{
 				return -100;
 			}
@@ -143,5 +145,15 @@ namespace BPShop.Controllers
         {
 			return View();
         }
+
+		private int countCartItems(List<CartModel> cart)
+		{
+			int cartCount = 0;
+			foreach (var item in cart)
+			{
+				cartCount += item.Quantity;
+			}
+			return cartCount;
+		}
 	}
 }

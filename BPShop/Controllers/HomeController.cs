@@ -3,6 +3,7 @@ using BPShop.Enities;
 using BPShop.Enums;
 using BPShop.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -79,15 +80,15 @@ namespace BPShop.Controllers
 			var cart = GetCart();
 			ViewBag.IsHaveCart = cart.Count() > 0;
 
-			List <Product> result = await products.ToListAsync();
+			List<Product> result = await products.ToListAsync();
 			return View(result);
 		}
 
 		public async Task<ActionResult> ShowProduct(int Id)
-        {
-			Product Item = await context.Products.FirstOrDefaultAsync(x => x.ID	== Id);
+		{
+			Product Item = await context.Products.FirstOrDefaultAsync(x => x.ID == Id);
 			return View(Item);
-        }
+		}
 
 		public ActionResult Cart()
 		{
@@ -140,8 +141,16 @@ namespace BPShop.Controllers
 		}
 
 		public ActionResult AdminPanel()
-        {
+		{
 			return View();
-        }
+		}
+
+		[HttpPost]
+		public async Task AdminPanelAdd(Product product)
+		{
+			context.Products.Add(product);
+			await context.SaveChangesAsync();
+		}
+
 	}
 }

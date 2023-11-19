@@ -76,8 +76,6 @@
         }
     </div>
 
-
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.js"></script>
@@ -138,15 +136,23 @@
                 });
         }
 
-        function orderProduct(button, event, id) {
+        function orderProduct(button, event, id, withCounter) {
             var mainElement = document.querySelector('.notify-block');
             var newDiv = document.createElement('div');
+            var quantity = withCounter ? $('#quantity_' + id).val() : 1 ;
 
             setTimeout(function () {
                 newDiv.remove();
             }, 2000);
 
-            $.get('@Url.Action("AddToCart")' + '?productId=' + id,
+            if (withCounter) {
+                var action = '@Url.Action("AddToCart")' + '?productId=' + id + '&quantity=' + quantity;
+            }
+            else {
+                var action = '@Url.Action("AddToCart")' + '?productId=' + id;
+            }
+
+            $.get(action,
                 function (data) {
                     if (data == -100) {
                         newDiv.innerHTML = `
@@ -157,7 +163,7 @@
                     }
                     else {
                         $('.cartBtn').show();
-                        $("#countValue").text(parseInt($("#countValue").text()) + 1);
+                        $("#countValue").text(parseInt($("#countValue").text()) + parseInt(quantity));
                         newDiv.innerHTML = `
                         <div class="notify-item">
                             Заказ добавлен

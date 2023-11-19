@@ -443,29 +443,6 @@ hr {
     border-radius: 5px;
 }
 
-.close {
-    position: absolute;
-    top: 0px;
-    right: 5px;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-.card {
-    width: 400px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
-    text-align: center;
-    padding: 20px;
-}
-
-    .card img {
-        width: 100%;
-        height: auto;
-        border-radius: 5px;
-    }
 
 .price {
     margin-top: 10px;
@@ -553,7 +530,6 @@ input::-webkit-inner-spin-button {
     width: 10px;
     display: flex;
     justify-content: center;
-    
 }
 
     #cartCounter p {
@@ -593,14 +569,117 @@ input::-webkit-inner-spin-button {
     box-shadow: 1px 1px 5px black;
     margin: 1rem;
 }
+
     .notify-item.red {
         background: #d26b57;
         color: white;
     }
 
-    /*~~~~~~~~~~~~~~~~~~~~mobile version styles~~~~~~~~~~~~~~~~~~*/
-    @media screen and (max-width : 720px) {
-        .slider {
+.close {
+    position: absolute;
+    top: 0px;
+    right: 5px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.cart {
+    max-width: 400px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+    padding: 20px;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.cartProduct img {
+    width: 100px;
+    height: auto;
+    border-radius: 5px;
+}
+
+.cartProduct {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 10px;
+    margin: 10px;
+    box-shadow: 2px 2px 6px #000;
+}
+
+.cartDesc {
+    margin-right: 1rem;
+    margin-bottom: 0;
+}
+
+.cartProduct .name {
+    color: #d26b57;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.cartProduct .quantity {
+    margin: 0;
+}
+
+.cartQuantity {
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-width: 100px;
+}
+
+    .cartQuantity input {
+        margin: 5px;
+        max-width: 25px;
+        text-align: center;
+        border-radius: 3px;
+        border: 1px solid black;
+    }
+
+.ascDescBtn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 4px 8px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cartClientData {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+    .cartClientData input, .cartClientData select {
+        width: 100%;
+        height: 30px;
+    }
+
+    .cartClientData select {
+        margin-bottom: 2rem;
+    }
+
+.totalSum {
+    text-align: right;
+    font-weight: bold;
+}
+/*~~~~~~~~~~~~~~~~~~~~mobile version styles~~~~~~~~~~~~~~~~~~*/
+@media screen and (max-width : 720px) {
+    .slider {
         max-width: 100%;
         margin-top: 3rem;
     }

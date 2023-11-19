@@ -242,6 +242,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Context\MYContext.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Enities\Order.cs" />
     <Compile Include="Enities\Product.cs" />
     <Compile Include="Enums\SortType.cs" />
     <Compile Include="Global.asax.cs">
@@ -254,6 +255,10 @@
     <Compile Include="Migrations\20231103161521_addRows.cs" />
     <Compile Include="Migrations\20231103161521_addRows.designer.cs">
       <DependentUpon>20231103161521_addRows.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20231119151728_addOrderTable.cs" />
+    <Compile Include="Migrations\20231119151728_addOrderTable.designer.cs">
+      <DependentUpon>20231119151728_addOrderTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\MYContextModelSnapshot.cs" />
     <Compile Include="Models\CartModel.cs" />
@@ -274,6 +279,7 @@
     <Content Include="Content\imgs\flowers4.jpg" />
     <Content Include="Content\imgs\inst.png" />
     <Content Include="Content\imgs\wa.png" />
+    <Content Include="Content\Js\InputMask.js" />
     <Content Include="Content\productImgs\flowers.jpg" />
     <Content Include="Content\Site.js" />
     <Content Include="favicon.ico" />

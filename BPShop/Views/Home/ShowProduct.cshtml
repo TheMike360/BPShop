@@ -5,19 +5,19 @@
 }
 <div >
     <span class="close">&times;</span>
-    <div class="card">
+    <div class="cart">
         <img src="@Model.ImgRef" alt="Product Image">
         <div class="price">@Model.Cost</div>
         <div class="description">@Model.Description</div>
         <div class="availability">@Model.Name</div>
 
         <div class="quantity">
-            <button onclick="decrementQuantity()">-</button>
-            <input type="number" id="quantity" value="1" min="1" max="99">
-            <button onclick="incrementQuantity()">+</button>
+            <button onclick="decrementQuantity(@Model.ID)">-</button>
+            <input type="number" id="quantity_@Model.ID" value="1" min="1" max="99">
+            <button onclick="incrementQuantity(@Model.ID)">+</button>
         </div>
         <div class="card-btns">
-            <button class="order-button" onclick="addToCart()">Добавить в корзину</button>
+            <button class="order-button" onclick="orderProduct(this, event, @Model.ID, true)">Добавить в корзину</button>
             <button class="order-button" onclick="orderNow()">Заказать сейчас</button>
         </div>
     </div>

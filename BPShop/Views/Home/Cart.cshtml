@@ -1,10 +1,96 @@
-﻿@{
+﻿@model List<BPShop.Enities.Product>
+@using BPShop.Models;
+@{
     ViewBag.Title = "Cart";
     Layout = null;
+    int totalSum = 0;
 }
-
-<h2>Cart</h2>
-<div class="card">
+<script src="~/Content/Js/InputMask.js"></script>
+<h2 style="margin-left: 2rem;">Ваш Заказ</h2>
+<div class="cart">
+    <hr />
     <span class="close">&times;</span>
+    @foreach (var product in Model)
+    {
+        int productCount = 1;
+        foreach (CartModel item in ViewBag.CartPrdouctCounter)
+        {
+            if (item.ProductId == product.ID)
+            {
+                totalSum += (int)product.Cost * item.Quantity;
+                productCount = item.Quantity;
+                break;
+            }
+        }
+
+        <div class="cartProduct">
+            <img src="@product.ImgRef" alt="Товар" class="cartDesc">
+            <div style="flex-wrap: wrap;">
+                <p class="cartDesc name">@product.Name</p>
+                <div class="cartQuantity cartDesc">
+                    <button onclick="decrementQuantity(@product.ID)" class="ascDescBtn">-</button>
+                    <input type="number" id="quantity_@product.ID" value="@productCount" min="1" max="99" onchange="updateCost(@product.ID, true)" readonly>
+                    <button onclick="incrementQuantity(@product.ID)" class="ascDescBtn">+</button>
+                </div>
+            </div>
+            <p id="productCostId_@product.ID" class="cartDesc">@product.Cost</p>
+        </div>
+    }
+    <p class="totalSum">Сумма: <span id="cost">@totalSum</span> тг</p>
+    <hr />
+    <div class="cartClientData">
+        <label for="hisName">Ваше имя:</label>
+        <input type="text" id="yourName" name="hisName" required>
+
+        <label for="phone">Ваш номер телефона:</label>
+        <input type="tel" id="yourPhoneNumber" name="phone" required>
+
+        <label for="recipientName">Имя получателя:</label>
+        <input type="text" id="recipientName" name="recipientName" required>
+
+        <label for="recipientContact">Контакты получателя:</label>
+        <input type="text" id="recipientContacts" name="recipientContact" required>
+
+        <label for="deliverDate">Дата и время доставки:</label>
+        <input type="datetime-local" id="deliveryDateTime" name="deliverDate" min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" required>
+
+        <label for="deliveryAddress">Адрес доставки:</label>
+        <input type="text" id="deliveryAddress" name="deliveryAddress" required>
+
+        <label for="email">Ваш Email:</label>
+        <input type="email" id="yourEmail" name="email" required>
+
+        <label>Способ оплаты:</label>
+        <select id="paymentMethod" name="payType" required>
+            <option value="kaspi">Kaspi</option>
+            <option value="cashOnDelivery">Наличными при доставке</option>
+            <option value="card">Картой</option>
+        </select>
+
+        <p class="totalSum">Сумма: @totalSum тг</p>
+        <button type="submit" class="order-button" onclick="confirmOrder()">Оформить заказ</button>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#yourPhoneNumber').inputmask("+7(999) 999-99-99");
+        });
+
+        function confirmOrder() {
+            var productIds = [];
+            var quantities = [];
+
+            var inputs = document.querySelectorAll('input[type="number"]');
+            inputs.forEach(function (input) {
+                // Получаем productId из id элемента
+                var productId = input.id.replace('quantity_', '');
+                productIds.push(productId);
+
+                // Получаем начальное значение quantity и добавляем его в массив
+                quantities.push(parseInt(input.value, 10));
+            });
+            console.log('Product IDs:', productIds);
+            console.log('Quantities:', quantities);
+        }
+    </script>
 </div>
 

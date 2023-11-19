@@ -37,6 +37,7 @@ namespace BPShop.Controllers
 		public async Task<ActionResult> Products(decimal maxRange = 0, decimal minRange = 0, SortType sortType = SortType.defaultSort, string search = "")
 		{
 			IQueryable<Product> products = context.Products.OrderByDescending(x => x.ID);
+
 			//для range slider цены
 			ViewBag.MaxCost = (int)products.Select(x => x.Cost).Max();
 			ViewBag.MinCost = (int)products.Select(x => x.Cost).Min();
@@ -81,20 +82,24 @@ namespace BPShop.Controllers
 			ViewBag.IsHaveCart = cart.Count() > 0;
 			ViewBag.CartCount = countCartItems(cart);
 
-			List <Product> result = await products.ToListAsync();
+
+			List<Product> result = await products.ToListAsync();
 			return View(result);
 		}
 
 		public async Task<ActionResult> ShowProduct(int Id)
-        {
-			Product Item = await context.Products.FirstOrDefaultAsync(x => x.ID	== Id);
-			return View(Item);
-        }
-
-		public ActionResult Cart()
 		{
-			List<CartModel> cart = GetCart();
-			return View(cart);
+			Product Item = await context.Products.FirstOrDefaultAsync(x => x.ID == Id);
+			return View(Item);
+		}
+
+		public async Task<ActionResult> Cart()
+		{
+			List<CartModel> Cart = GetCart();
+			List<int> addedCartPoructIds = Cart.Select(x => x.ProductId).ToList();
+			ViewBag.CartPrdouctCounter = Cart;
+
+			return View(await context.Products.Where(x => addedCartPoructIds.Contains(x.ID)).ToListAsync());
 		}
 
 		public int AddToCart(int productId, int quantity = 1)
@@ -119,6 +124,18 @@ namespace BPShop.Controllers
 			return 0;
 		}
 
+		public async Task<int> ConfirmOrder(Order order)
+		{
+			context.Orders.Add(order);
+			await context.SaveChangesAsync();
+
+			return 0;
+		}
+
+		public ActionResult AdminPanel()
+		{
+			return View();
+		}
 
 		public ActionResult About()
 		{
@@ -140,11 +157,6 @@ namespace BPShop.Controllers
 			}
 			return cart;
 		}
-
-		public ActionResult AdminPanel()
-        {
-			return View();
-        }
 
 		private int countCartItems(List<CartModel> cart)
 		{

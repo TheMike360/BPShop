@@ -124,6 +124,7 @@ namespace BPShop.Controllers
 			return 0;
 		}
 
+		[HttpPost]
 		public async Task<int> ConfirmOrder(Order order)
 		{
 			context.Orders.Add(order);

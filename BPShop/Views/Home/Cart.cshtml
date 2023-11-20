@@ -40,25 +40,25 @@
     <hr />
     <div class="cartClientData">
         <label for="hisName">Ваше имя:</label>
-        <input type="text" id="yourName" name="hisName" required>
+        <input class="cartInput" type="text" id="yourName" name="hisName" required>
 
         <label for="phone">Ваш номер телефона:</label>
-        <input type="tel" id="yourPhoneNumber" name="phone" required>
+        <input class="cartInput" type="tel" id="yourPhoneNumber" name="phone" required>
 
         <label for="recipientName">Имя получателя:</label>
-        <input type="text" id="recipientName" name="recipientName" required>
+        <input class="cartInput" type="text" id="recipientName" name="recipientName" required>
 
         <label for="recipientContact">Контакты получателя:</label>
-        <input type="text" id="recipientContacts" name="recipientContact" required>
+        <input class="cartInput" type="text" id="recipientContacts" name="recipientContact" required>
 
         <label for="deliverDate">Дата и время доставки:</label>
-        <input type="datetime-local" id="deliveryDateTime" name="deliverDate" min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" required>
+        <input class="cartInput" type="datetime-local" id="deliveryDateTime" name="deliverDate" min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" required>
 
         <label for="deliveryAddress">Адрес доставки:</label>
-        <input type="text" id="deliveryAddress" name="deliveryAddress" required>
+        <input class="cartInput" type="text" id="deliveryAddress" name="deliveryAddress" required>
 
         <label for="email">Ваш Email:</label>
-        <input type="email" id="yourEmail" name="email" required>
+        <input class="cartInput" type="email" id="yourEmail" name="email" required>
 
         <label>Способ оплаты:</label>
         <select id="paymentMethod" name="payType" required>
@@ -75,21 +75,58 @@
             $('#yourPhoneNumber').inputmask("+7(999) 999-99-99");
         });
 
+        function validateForm() {
+            var isValid = true;
+            $('.cartInput').each(function () {
+                if (!$(this).val()) {
+                    isValid = false;
+                    $(this).addClass('error');
+                } else {
+                    $(this).removeClass('error');
+                }
+            });
+
+            return isValid;
+        }
+
         function confirmOrder() {
             var productIds = [];
             var quantities = [];
 
             var inputs = document.querySelectorAll('input[type="number"]');
             inputs.forEach(function (input) {
-                // Получаем productId из id элемента
                 var productId = input.id.replace('quantity_', '');
                 productIds.push(productId);
 
-                // Получаем начальное значение quantity и добавляем его в массив
                 quantities.push(parseInt(input.value, 10));
             });
-            console.log('Product IDs:', productIds);
-            console.log('Quantities:', quantities);
+            if (validateForm()) {
+                var orderData = {
+                    ProductIds: productIds,
+                    Count: quantities,
+                    HisName: $('#hisName').val(),
+                    Phone: $('#yourPhoneNumber').val(),
+                    RecipientName: $('#recipientName').val(),
+                    RecipientContact: $('#recipientContacts').val(),
+                    DeliverDate: $('#deliveryDateTime').val(),
+                    Address: $('#deliveryAddress').val(),
+                    Email: $('#yourEmail').val(),
+                    PayType: $('#paymentMethod').val(),
+                };
+
+                debugger
+                $.ajax({
+                    url: '@Url.Action("ConfirmOrder")',
+                    method: 'post',
+                    body: orderData,
+                    context: document.body
+                }).done(function (data) {
+                    $(this).addClass('done');
+                });
+            }
+            else {
+                alert("Пидарас!");
+            }
         }
     </script>
 </div>

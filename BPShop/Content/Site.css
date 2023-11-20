@@ -677,6 +677,11 @@ input::-webkit-inner-spin-button {
     text-align: right;
     font-weight: bold;
 }
+
+.error {
+    color: red;
+    border: 1px solid red;
+}
 /*~~~~~~~~~~~~~~~~~~~~mobile version styles~~~~~~~~~~~~~~~~~~*/
 @media screen and (max-width : 720px) {
     .slider {

@@ -40,7 +40,7 @@
     <hr />
     <div class="cartClientData">
         <label for="hisName">Ваше имя:</label>
-        <input class="cartInput" type="text" id="yourName" name="hisName" required>
+        <input class="cartInput" type="text" id="hisName" name="hisName" required>
 
         <label for="phone">Ваш номер телефона:</label>
         <input class="cartInput" type="tel" id="yourPhoneNumber" name="phone" required>
@@ -102,8 +102,8 @@
             });
             if (validateForm()) {
                 var orderData = {
-                    ProductIds: productIds,
-                    Count: quantities,
+                    ProductIds: productIds.join(','),
+                    Count: quantities.join(','),
                     HisName: $('#hisName').val(),
                     Phone: $('#yourPhoneNumber').val(),
                     RecipientName: $('#recipientName').val(),
@@ -114,12 +114,12 @@
                     PayType: $('#paymentMethod').val(),
                 };
 
-                debugger
                 $.ajax({
-                    url: '@Url.Action("ConfirmOrder")',
                     method: 'post',
-                    body: orderData,
-                    context: document.body
+                    url: '@Url.Action("ConfirmOrder")',
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(orderData),
                 }).done(function (data) {
                     $(this).addClass('done');
                 });

@@ -52,7 +52,7 @@
         <input class="cartInput" type="text" id="recipientContacts" name="recipientContact" required>
 
         <label for="deliverDate">Дата и время доставки:</label>
-        <input class="cartInput" type="datetime-local" id="deliveryDateTime" name="deliverDate" min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" required>
+        <input class="cartInput" type="datetime-local" id="deliveryDateTime" name="deliverDate" min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" max="@DateTime.Now.AddDays(31).ToString("yyyy-MM-ddTHH:mm")" required>
 
         <label for="deliveryAddress">Адрес доставки:</label>
         <input class="cartInput" type="text" id="deliveryAddress" name="deliveryAddress" required>
@@ -61,10 +61,10 @@
         <input class="cartInput" type="email" id="yourEmail" name="email" required>
 
         <label>Способ оплаты:</label>
-        <select id="paymentMethod" name="payType" required>
-            <option value="kaspi">Kaspi</option>
-            <option value="cashOnDelivery">Наличными при доставке</option>
-            <option value="card">Картой</option>
+        <select id="payType" name="payType" required>
+            <option value="0">Kaspi</option>
+            <option value="1">Наличными при доставке</option>
+            <option value="2">Картой</option>
         </select>
 
         <p class="totalSum">Сумма: @totalSum тг</p>
@@ -111,7 +111,7 @@
                     DeliverDate: $('#deliveryDateTime').val(),
                     Address: $('#deliveryAddress').val(),
                     Email: $('#yourEmail').val(),
-                    PayType: $('#paymentMethod').val(),
+                    PayType: $('#payType').val(),
                 };
 
                 $.ajax({
@@ -121,11 +121,15 @@
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify(orderData),
                 }).done(function (data) {
+                    if (data == -1) {
+                        alert("Не корректно заполнено поле 'Ваш номер телефона'");
+                    }
                     $(this).addClass('done');
+                
                 });
             }
             else {
-                alert("Пидарас!");
+                alert("Не все данные заполнены!");
             }
         }
     </script>

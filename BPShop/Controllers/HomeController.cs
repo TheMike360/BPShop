@@ -3,6 +3,7 @@ using BPShop.Enities;
 using BPShop.Enums;
 using BPShop.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -127,6 +128,13 @@ namespace BPShop.Controllers
 		[HttpPost]
 		public async Task<int> ConfirmOrder(Order order)
 		{
+			if (order.Phone.Contains("_"))
+			{
+				return -1;
+			}
+
+			order.Time = DateTime.Now;
+
 			context.Orders.Add(order);
 			await context.SaveChangesAsync();
 

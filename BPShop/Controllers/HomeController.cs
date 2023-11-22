@@ -141,11 +141,6 @@ namespace BPShop.Controllers
 			return 0;
 		}
 
-		public ActionResult AdminPanel()
-		{
-			return View();
-		}
-
 		public ActionResult About()
 		{
 			return View();
@@ -165,6 +160,18 @@ namespace BPShop.Controllers
 				Session["Cart"] = cart;
 			}
 			return cart;
+		}
+
+		public ActionResult AdminPanel()
+		{
+			return View();
+		}
+
+		[HttpPost]
+		public async Task AdminPanelAdd(Product product)
+		{
+			context.Products.Add(product);
+			await context.SaveChangesAsync();
 		}
 
 		private int countCartItems(List<CartModel> cart)

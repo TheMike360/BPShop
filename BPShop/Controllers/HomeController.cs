@@ -38,6 +38,7 @@ namespace BPShop.Controllers
 		public async Task<ActionResult> Products(decimal maxRange = 0, decimal minRange = 0, SortType sortType = SortType.defaultSort, string search = "")
 		{
 			IQueryable<Product> products = context.Products.OrderByDescending(x => x.ID);
+
 			//для range slider цены
 			ViewBag.MaxCost = (int)products.Select(x => x.Cost).Max();
 			ViewBag.MinCost = (int)products.Select(x => x.Cost).Min();
@@ -78,7 +79,10 @@ namespace BPShop.Controllers
 			//вид сортировки
 			ViewBag.SortType = sortType;
 			var cart = GetCart();
+
 			ViewBag.IsHaveCart = cart.Count() > 0;
+			ViewBag.CartCount = countCartItems(cart);
+
 
 			List<Product> result = await products.ToListAsync();
 			return View(result);
@@ -90,16 +94,19 @@ namespace BPShop.Controllers
 			return View(Item);
 		}
 
-		public ActionResult Cart()
+		public async Task<ActionResult> Cart()
 		{
-			List<CartModel> cart = GetCart();
-			return View(cart);
+			List<CartModel> Cart = GetCart();
+			List<int> addedCartPoructIds = Cart.Select(x => x.ProductId).ToList();
+			ViewBag.CartPrdouctCounter = Cart;
+
+			return View(await context.Products.Where(x => addedCartPoructIds.Contains(x.ID)).ToListAsync());
 		}
 
 		public int AddToCart(int productId, int quantity = 1)
 		{
 			List<CartModel> cart = GetCart();
-			if (cart.Count() > 100)
+			if (countCartItems(cart) > 100)
 			{
 				return -100;
 			}
@@ -118,6 +125,21 @@ namespace BPShop.Controllers
 			return 0;
 		}
 
+		[HttpPost]
+		public async Task<int> ConfirmOrder(Order order)
+		{
+			if (order.Phone.Contains("_"))
+			{
+				return -1;
+			}
+
+			order.Time = DateTime.Now;
+
+			context.Orders.Add(order);
+			await context.SaveChangesAsync();
+
+			return 0;
+		}
 
 		public ActionResult About()
 		{
@@ -152,5 +174,14 @@ namespace BPShop.Controllers
 			await context.SaveChangesAsync();
 		}
 
+		private int countCartItems(List<CartModel> cart)
+		{
+			int cartCount = 0;
+			foreach (var item in cart)
+			{
+				cartCount += item.Quantity;
+			}
+			return cartCount;
+		}
 	}
 }

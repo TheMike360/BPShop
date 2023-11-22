@@ -1,10 +1,137 @@
-﻿@{
+﻿@model List<BPShop.Enities.Product>
+@using BPShop.Models;
+@{
     ViewBag.Title = "Cart";
     Layout = null;
+    int totalSum = 0;
 }
-
-<h2>Cart</h2>
-<div class="card">
+<script src="~/Content/Js/InputMask.js"></script>
+<h2 style="margin-left: 2rem;">Ваш Заказ</h2>
+<div class="cart">
+    <hr />
     <span class="close">&times;</span>
+    @foreach (var product in Model)
+    {
+        int productCount = 1;
+        foreach (CartModel item in ViewBag.CartPrdouctCounter)
+        {
+            if (item.ProductId == product.ID)
+            {
+                totalSum += (int)product.Cost * item.Quantity;
+                productCount = item.Quantity;
+                break;
+            }
+        }
+
+        <div class="cartProduct">
+            <img src="@product.ImgRef" alt="Товар" class="cartDesc">
+            <div style="flex-wrap: wrap;">
+                <p class="cartDesc name">@product.Name</p>
+                <div class="cartQuantity cartDesc">
+                    <button onclick="decrementQuantity(@product.ID)" class="ascDescBtn">-</button>
+                    <input type="number" id="quantity_@product.ID" value="@productCount" min="1" max="99" onchange="updateCost(@product.ID, true)" readonly>
+                    <button onclick="incrementQuantity(@product.ID)" class="ascDescBtn">+</button>
+                </div>
+            </div>
+            <p id="productCostId_@product.ID" class="cartDesc">@product.Cost</p>
+        </div>
+    }
+    <p class="totalSum">Сумма: <span id="cost">@totalSum</span> тг</p>
+    <hr />
+    <div class="cartClientData">
+        <label for="hisName">Ваше имя:</label>
+        <input class="cartInput" type="text" id="hisName" name="hisName" required>
+
+        <label for="phone">Ваш номер телефона:</label>
+        <input class="cartInput" type="tel" id="yourPhoneNumber" name="phone" required>
+
+        <label for="recipientName">Имя получателя:</label>
+        <input class="cartInput" type="text" id="recipientName" name="recipientName" required>
+
+        <label for="recipientContact">Контакты получателя:</label>
+        <input class="cartInput" type="text" id="recipientContacts" name="recipientContact" required>
+
+        <label for="deliverDate">Дата и время доставки:</label>
+        <input class="cartInput" type="datetime-local" id="deliveryDateTime" name="deliverDate" min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" max="@DateTime.Now.AddDays(31).ToString("yyyy-MM-ddTHH:mm")" required>
+
+        <label for="deliveryAddress">Адрес доставки:</label>
+        <input class="cartInput" type="text" id="deliveryAddress" name="deliveryAddress" required>
+
+        <label for="email">Ваш Email:</label>
+        <input class="cartInput" type="email" id="yourEmail" name="email" required>
+
+        <label>Способ оплаты:</label>
+        <select id="payType" name="payType" required>
+            <option value="0">Kaspi</option>
+            <option value="1">Наличными при доставке</option>
+            <option value="2">Картой</option>
+        </select>
+
+        <p class="totalSum">Сумма: @totalSum тг</p>
+        <button type="submit" class="order-button" onclick="confirmOrder()">Оформить заказ</button>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#yourPhoneNumber').inputmask("+7(999) 999-99-99");
+        });
+
+        function validateForm() {
+            var isValid = true;
+            $('.cartInput').each(function () {
+                if (!$(this).val()) {
+                    isValid = false;
+                    $(this).addClass('error');
+                } else {
+                    $(this).removeClass('error');
+                }
+            });
+
+            return isValid;
+        }
+
+        function confirmOrder() {
+            var productIds = [];
+            var quantities = [];
+
+            var inputs = document.querySelectorAll('input[type="number"]');
+            inputs.forEach(function (input) {
+                var productId = input.id.replace('quantity_', '');
+                productIds.push(productId);
+
+                quantities.push(parseInt(input.value, 10));
+            });
+            if (validateForm()) {
+                var orderData = {
+                    ProductIds: productIds.join(','),
+                    Count: quantities.join(','),
+                    HisName: $('#hisName').val(),
+                    Phone: $('#yourPhoneNumber').val(),
+                    RecipientName: $('#recipientName').val(),
+                    RecipientContact: $('#recipientContacts').val(),
+                    DeliverDate: $('#deliveryDateTime').val(),
+                    Address: $('#deliveryAddress').val(),
+                    Email: $('#yourEmail').val(),
+                    PayType: $('#payType').val(),
+                };
+
+                $.ajax({
+                    method: 'post',
+                    url: '@Url.Action("ConfirmOrder")',
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(orderData),
+                }).done(function (data) {
+                    if (data == -1) {
+                        alert("Не корректно заполнено поле 'Ваш номер телефона'");
+                    }
+                    $(this).addClass('done');
+                
+                });
+            }
+            else {
+                alert("Не все данные заполнены!");
+            }
+        }
+    </script>
 </div>
 

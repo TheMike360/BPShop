@@ -1,15 +1,18 @@
 ﻿
 @{
     ViewBag.Title = "Products";
+
+    string isVisible = ViewBag.IsHaveCart ? "" : "none";
 }
 
 <div class="container body-content">
-    @if (ViewBag.IsHaveCart)
-    {
-        <div class="cartBtn" onclick="showCart()">
+        <div class="cartBtn" onclick="showCart()" style="display: @isVisible">
             <img src="~/Content/imgs/bag.png" alt="Cart" />
+            <div id="cartCounter">
+                <p id="countValue">@ViewBag.CartCount</p>
+            </div>
         </div>
-    }
+    
 
     <div class="notify-block">
     </div>
@@ -73,8 +76,6 @@
         }
     </div>
 
-
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.js"></script>
@@ -135,23 +136,40 @@
                 });
         }
 
-        function orderProduct(button, event, id) {
+        function orderProduct(button, event, id, withCounter) {
             var mainElement = document.querySelector('.notify-block');
             var newDiv = document.createElement('div');
-            newDiv.innerHTML = `
-                <div class="notify-item">
-                    Заказ добавлен
-                </div >`;
-            mainElement.prepend(newDiv);
+            var quantity = withCounter ? $('#quantity_' + id).val() : 1 ;
 
             setTimeout(function () {
                 newDiv.remove();
             }, 2000);
 
-            $.get('@Url.Action("AddToCart")' + '?productId=' + id,
+            if (withCounter) {
+                var action = '@Url.Action("AddToCart")' + '?productId=' + id + '&quantity=' + quantity;
+            }
+            else {
+                var action = '@Url.Action("AddToCart")' + '?productId=' + id;
+            }
+
+            $.get(action,
                 function (data) {
-                    if (data == -100)
-                        alert("Достигнут лимит в корзине");
+                    if (data == -100) {
+                        newDiv.innerHTML = `
+                        <div class="notify-item red">
+                            Достигнут лимит в корзине
+                        </div >`;
+                        mainElement.prepend(newDiv);
+                    }
+                    else {
+                        $('.cartBtn').show();
+                        $("#countValue").text(parseInt($("#countValue").text()) + parseInt(quantity));
+                        newDiv.innerHTML = `
+                        <div class="notify-item">
+                            Заказ добавлен
+                        </div >`;
+                        mainElement.prepend(newDiv);
+                    }
                 })
                 .fail(function () {
                     alert("Ошибка при добавлении в корзину");

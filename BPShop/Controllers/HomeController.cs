@@ -35,46 +35,66 @@ namespace BPShop.Controllers
 			return View(result);
 		}
 
-		public async Task<ActionResult> Products(decimal maxRange = 0, decimal minRange = 0, SortType sortType = SortType.defaultSort, string search = "")
+		public async Task<ActionResult> Products(decimal maxRange = 0, decimal minRange = 0,
+			SortType sortType = SortType.defaultSort, string search = "", ProductType productType = ProductType.Flowers,
+			FlowersType flowersType = FlowersType.None)
 		{
 			IQueryable<Product> products = context.Products.OrderByDescending(x => x.ID);
+			if (string.IsNullOrEmpty(search) && productType == ProductType.Flowers)
+				products = products.Where(x => x.FlowersType == flowersType);
+			else if (string.IsNullOrEmpty(search) && (int)productType <= 3)
+				products = products.Where(x => x.ProductType == productType && x.FlowersType == flowersType);
+			else if (string.IsNullOrEmpty(search))
+				products = products.Where(x => x.ProductType == productType);
 
-			//для range slider цены
-			ViewBag.MaxCost = (int)products.Select(x => x.Cost).Max();
-			ViewBag.MinCost = (int)products.Select(x => x.Cost).Min();
-
-			ViewBag.MaxRange = ViewBag.MaxCost;
-			ViewBag.MinRange = ViewBag.MinCost;
-
-			if (minRange != 0 && maxRange != 0)
+			if (!products.Any())
 			{
-				ViewBag.MaxRange = maxRange;
-				ViewBag.MinRange = minRange;
-				products = products.Where(x => x.Cost >= minRange && x.Cost <= maxRange);
+				ViewBag.MaxRange = 0;
+				ViewBag.MinRange = 0;
+				ViewBag.MaxCost = 0;
+				ViewBag.MinCost = 0;
 			}
-			if (!string.IsNullOrEmpty(search))
+			else
 			{
-				ViewBag.Search = search;
-				products = products.Where(x => x.SearhPrompt.Contains(search));
-			}
-			if (sortType != SortType.defaultSort)
-			{
-				switch (sortType)
+				//для range slider цены
+				ViewBag.MaxCost = (int?)products.Select(x => x.Cost).Max() ?? 0;
+				ViewBag.MinCost = (int?)products.Select(x => x.Cost).Min() ?? 0;
+
+				//Текущее выбранное значение
+				ViewBag.MaxRange = ViewBag.MaxCost;
+				ViewBag.MinRange = ViewBag.MinCost;
+
+				if (minRange != 0 && maxRange != 0)
 				{
-					case SortType.oldProducts:
-						products = products.OrderBy(x => x.ID);
-						break;
-					case SortType.newProducts:
-						products = products.OrderByDescending(x => x.ID);
-						break;
-					case SortType.costDesc:
-						products = products.OrderByDescending(x => x.Cost);
-						break;
-					case SortType.costAsc:
-						products = products.OrderBy(x => x.Cost);
-						break;
+					ViewBag.MaxRange = maxRange;
+					ViewBag.MinRange = minRange;
+					products = products.Where(x => x.Cost >= minRange && x.Cost <= maxRange);
+				}
+				if (!string.IsNullOrEmpty(search))
+				{
+					ViewBag.Search = search;
+					products = products.Where(x => x.SearhPrompt.Contains(search));
+				}
+				if (sortType != SortType.defaultSort)
+				{
+					switch (sortType)
+					{
+						case SortType.oldProducts:
+							products = products.OrderBy(x => x.ID);
+							break;
+						case SortType.newProducts:
+							products = products.OrderByDescending(x => x.ID);
+							break;
+						case SortType.costDesc:
+							products = products.OrderByDescending(x => x.Cost);
+							break;
+						case SortType.costAsc:
+							products = products.OrderBy(x => x.Cost);
+							break;
+					}
 				}
 			}
+			
 
 			//вид сортировки
 			ViewBag.SortType = sortType;

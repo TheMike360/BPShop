@@ -670,6 +670,15 @@ input::-webkit-inner-spin-button {
     color: red;
     border: 1px solid red;
 }
+
+.emptySearch {
+    text-align: center;
+    width: 100%;
+    background: #d26b57;
+    color: white;
+    font-size: 25px;
+    padding: 1rem 0;
+}
 /*~~~~~~~~~~~~~~~~~~~~mobile version styles~~~~~~~~~~~~~~~~~~*/
 @media screen and (max-width : 720px) {
     .slider {

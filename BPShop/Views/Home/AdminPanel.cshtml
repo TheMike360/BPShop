@@ -69,42 +69,36 @@
 <h1>AdminPanel</h1>
 
 <div class="navPanel">
-    <input type="button" value="Продукты" />
-    <input type="button" value="Добавить товары" />
+    <input onclick="ShowProducts()" id="Products" type="button" value="Продукты" />
+    <input onclick="GetAddProducts()" id="AddProducts" type="button" value="Добавить товары" />
 </div>
 
-<form method="post" controller="Home" action="AdminPanelAdd">
+<div id="RenderBody"></div>
 
-    <label for="Name"><h3>Введите название продукта</h3></label>
-    <input type="text" name="Name" tabindex="1" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function GetAddProducts() {
+        $.get('@Url.Action("AddProductsForm")', function (data) {
+            $('#RenderBody').replaceWith(data);
+        });
+        $.get('@Url.Action("AddProductsForm")', function (data) {
+            $('#ProductsTable').replaceWith(data);
+        });
+    }
 
-    <label for="Cost"><h3>Введите цену продукта</h3></label>
-    <input type="number" name="Cost" tabindex="2" />
+    function ShowProducts() {
+        $.get('@Url.Action("GetProductsTable")', function (data) {
+            $('#RenderBody').replaceWith(data);
+        });
+        $.get('@Url.Action("GetProductsTable")', function (data) {
+            $('#AddProductsForms').replaceWith(data);
+        });
+    }
+</script>
 
-    <label for="Description"><h3>Опишите продукт</h3></label>
-    <input type="text" name="Description" tabindex="3" />
 
-    <label for="Count"><h3>Введите количество цветов</h3></label>
-    <input type="number" name="Count" tabindex="4" />
 
-    <label for="CountFlowerInBouquet"><h3>Введите количество цветов в букете</h3></label>
-    <input type="number" name="CountFlowersInBouquet" tabindex="5" />
 
-    <label for="ProductType"><h3>Введите тип продукта</h3></label>
-    <input type="text" name="ProductType" value="" tabindex="6" />
-
-    <label for="SearchPrompt"><h3>Поиск товара</h3></label>
-    <input type="search" name="SearhPrompt" value="" tabindex="7" />
-
-    <label for="FlowersType"><h3>Введите тип цветов</h3></label>
-    <input type="text" name="FlowersType" value="" tabindex="8" />
-
-        @*<label for="ImgRef"><h3>Загрузите картинку цветов</h3></label>
-        <input type="file" name="ImgRef" value="" />*@
-
-    <input type="submit" value="Добавить" />
-
-</form>
 
 
 

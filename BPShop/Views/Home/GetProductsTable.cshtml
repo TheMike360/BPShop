@@ -1,0 +1,60 @@
+﻿@model IQueryable<BPShop.Enities.Product>
+
+@{
+    ViewBag.Title = "GetProductsTable";
+    Layout = null;
+}
+
+<style>
+    table {
+        border-collapse: collapse;
+        width: 40%;
+        margin-top: 20px;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+</style>
+
+<table id="ProductsTable">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Cost</th>
+            <th>Description</th>
+            <th>Count</th>
+            <th>CountFlowersInBouquet</th>
+            <th>ProductType</th>
+            <th>SearchPrompt</th>
+            <th>FlowersType</th>
+            <th>ImgRef</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.ID</td>
+                <td>@product.Name</td>
+                <td>@product.Cost</td>
+                <td>@product.Description</td>
+                <td>@product.Count</td>
+                <td>@product.CountFlowersInBouquet</td>
+                <td>@product.ProductType</td>
+                <td>@product.SearhPrompt</td>
+                <td>@product.FlowersType</td>
+                <td>@product.ImgRef</td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+

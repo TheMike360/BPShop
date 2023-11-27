@@ -319,6 +319,8 @@
     <Content Include="Views\Home\ShowProduct.cshtml" />
     <Content Include="Views\Home\Cart.cshtml" />
     <Content Include="Views\Home\AdminPanel.cshtml" />
+    <Content Include="Views\Home\AddProductsForm.cshtml" />
+    <Content Include="Views\Home\GetProductsTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

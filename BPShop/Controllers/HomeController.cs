@@ -11,29 +11,29 @@ using System.Web.Mvc;
 
 namespace BPShop.Controllers
 {
-	public class HomeController : Controller
-	{
-		private readonly MYContext context;
+    public class HomeController : Controller
+    {
+        private readonly MYContext context;
 
-		public HomeController() : this(new MYContext())
-		{
-		}
+        public HomeController() : this(new MYContext())
+        {
+        }
 
-		public HomeController(MYContext context)
-		{
-			this.context = context;
-		}
+        public HomeController(MYContext context)
+        {
+            this.context = context;
+        }
 
-		public async Task<ActionResult> Index()
-		{
-			IQueryable<Product> products = context.Products.OrderByDescending(x => x.ID);
-			//для range slider цены
-			ViewBag.MaxCost = (int)products.Select(x => x.Cost).Max();
-			ViewBag.MinCost = (int)products.Select(x => x.Cost).Min();
+        public async Task<ActionResult> Index()
+        {
+            IQueryable<Product> products = context.Products.OrderByDescending(x => x.ID);
+            //для range slider цены
+            ViewBag.MaxCost = (int)products.Select(x => x.Cost).Max();
+            ViewBag.MinCost = (int)products.Select(x => x.Cost).Min();
 
-			List<Product> result = await products.Take(10).ToListAsync();
-			return View(result);
-		}
+            List<Product> result = await products.Take(10).ToListAsync();
+            return View(result);
+        }
 
 		public async Task<ActionResult> Products(decimal maxRange = 0, decimal minRange = 0,
 			SortType sortType = SortType.defaultSort, string search = "", ProductType productType = ProductType.Flowers,
@@ -103,104 +103,115 @@ namespace BPShop.Controllers
 
 			}
 
-			List<Product> result = await products.ToListAsync();
-			return View(result);
-		}
+            List<Product> result = await products.ToListAsync();
+            return View(result);
+        }
 
-		public async Task<ActionResult> ShowProduct(int Id)
-		{
-			Product Item = await context.Products.FirstOrDefaultAsync(x => x.ID == Id);
-			return View(Item);
-		}
+        public async Task<ActionResult> ShowProduct(int Id)
+        {
+            Product Item = await context.Products.FirstOrDefaultAsync(x => x.ID == Id);
+            return View(Item);
+        }
 
-		public async Task<ActionResult> Cart()
-		{
-			List<CartModel> Cart = GetCart();
-			List<int> addedCartPoructIds = Cart.Select(x => x.ProductId).ToList();
-			ViewBag.CartPrdouctCounter = Cart;
+        public async Task<ActionResult> Cart()
+        {
+            List<CartModel> Cart = GetCart();
+            List<int> addedCartPoructIds = Cart.Select(x => x.ProductId).ToList();
+            ViewBag.CartPrdouctCounter = Cart;
 
-			return View(await context.Products.Where(x => addedCartPoructIds.Contains(x.ID)).ToListAsync());
-		}
+            return View(await context.Products.Where(x => addedCartPoructIds.Contains(x.ID)).ToListAsync());
+        }
 
-		public int AddToCart(int productId, int quantity = 1)
-		{
-			List<CartModel> cart = GetCart();
-			if (countCartItems(cart) > 100)
-			{
-				return -100;
-			}
+        public int AddToCart(int productId, int quantity = 1)
+        {
+            List<CartModel> cart = GetCart();
+            if (countCartItems(cart) > 100)
+            {
+                return -100;
+            }
 
-			CartModel existingItem = cart.FirstOrDefault(item => item.ProductId == productId);
+            CartModel existingItem = cart.FirstOrDefault(item => item.ProductId == productId);
 
-			if (existingItem != null)
-			{
-				existingItem.Quantity += quantity;
-			}
-			else
-			{
-				cart.Add(new CartModel { ProductId = productId, Quantity = quantity });
-			}
+            if (existingItem != null)
+            {
+                existingItem.Quantity += quantity;
+            }
+            else
+            {
+                cart.Add(new CartModel { ProductId = productId, Quantity = quantity });
+            }
 
-			return 0;
-		}
+            return 0;
+        }
 
-		[HttpPost]
-		public async Task<int> ConfirmOrder(Order order)
-		{
-			if (order.Phone.Contains("_"))
-			{
-				return -1;
-			}
+        [HttpPost]
+        public async Task<int> ConfirmOrder(Order order)
+        {
+            if (order.Phone.Contains("_"))
+            {
+                return -1;
+            }
 
-			order.Time = DateTime.Now;
+            order.Time = DateTime.Now;
 
-			context.Orders.Add(order);
-			await context.SaveChangesAsync();
+            context.Orders.Add(order);
+            await context.SaveChangesAsync();
 
-			return 0;
-		}
+            return 0;
+        }
 
-		public ActionResult About()
-		{
-			return View();
-		}
+        public ActionResult About()
+        {
+            return View();
+        }
 
-		public ActionResult Contact()
-		{
-			return View();
-		}
+        public ActionResult Contact()
+        {
+            return View();
+        }
 
-		private List<CartModel> GetCart()
-		{
-			var cart = Session["Cart"] as List<CartModel>;
-			if (cart == null)
-			{
-				cart = new List<CartModel>();
-				Session["Cart"] = cart;
-			}
-			return cart;
-		}
+        private List<CartModel> GetCart()
+        {
+            var cart = Session["Cart"] as List<CartModel>;
+            if (cart == null)
+            {
+                cart = new List<CartModel>();
+                Session["Cart"] = cart;
+            }
+            return cart;
+        }
 
-		public ActionResult AdminPanel()
-		{
-			return View();
-		}
+        public ActionResult AdminPanel()
+        {
+            return View();
+        }
 
-		[HttpPost]
-		public async Task AdminPanelAdd(Product product)
-		{
-			context.Products.Add(product);
-			await context.SaveChangesAsync();
-		}
+        [HttpPost]
+        public async Task AdminPanelAdd(Product product)
+        {
+            context.Products.Add(product);
+            await context.SaveChangesAsync();
+        }
 
-		private int countCartItems(List<CartModel> cart)
-		{
-			int cartCount = 0;
-			foreach (var item in cart)
-			{
-				cartCount += item.Quantity;
-			}
-			return cartCount;
-		}
-	}
+        public ActionResult AddProductsForm()
+        {
+            return View();
+        }
+
+        public ActionResult GetProductsTable()
+        {
+            IQueryable<Product> Products = context.Products.OrderByDescending(x => x.ID);
+            return View(Products);
+        }
+
+        private int countCartItems(List<CartModel> cart)
+        {
+            int cartCount = 0;
+            foreach (var item in cart)
+            {
+                cartCount += item.Quantity;
+            }
+            return cartCount;
+        }
+    }
 }

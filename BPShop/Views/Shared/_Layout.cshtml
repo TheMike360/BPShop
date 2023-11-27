@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using BPShop.Enities
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -36,8 +37,8 @@
                     <button class="menu-button">Разное ▼</button>
                     <div class="menu-list">
                         <ul>
-                            <li>@Html.ActionLink("Шары", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Мягкие игрушки", "Contact", "Home")</li>
+                            <li>@Html.ActionLink("Шары", "Products", "Home", new { productType = (int)ProductType.Ballons }, null)</li>
+                            <li>@Html.ActionLink("Мягкие игрушки", "Products", "Home", new { productType = (int)ProductType.Toys }, null)</li>
                         </ul>
                     </div>
                 </div>
@@ -46,9 +47,9 @@
                     <button class="menu-button">Букеты ▼</button>
                     <div class="menu-list">
                         <ul>
-                            <li>@Html.ActionLink("Моно Букеты", "Products", "Home")</li>
-                            <li>@Html.ActionLink("Букеты в коробке", "Products", "Home")</li>
-                            <li>@Html.ActionLink("Евро Букеты", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Моно Букеты", "Products", "Home", new { productType = (int)ProductType.MonoBouquet }, null)</li>
+                            <li>@Html.ActionLink("Букеты в коробке", "Products", "Home", new { productType = (int)ProductType.BoxFlowers }, null)</li>
+                            <li>@Html.ActionLink("Евро Букеты", "Products", "Home", new { productType = (int)ProductType.EvroBouquet }, null)</li>
                         </ul>
                     </div>
                 </div>
@@ -57,32 +58,34 @@
                     <button class="menu-button">Цветы ▼</button>
                     <div class="long-menu-list">
                         <ul class="long-item">
-                            <li>@Html.ActionLink("Розы", "Products", "Home")</li>
-                            <li>@Html.ActionLink("Пионы", "Products", "Home")</li>
-                            <li>@Html.ActionLink("Тюльпаны", "Products", "Home")</li>
-                            <li>@Html.ActionLink("Гортензии", "Products", "Home")</li>
-                            <li>@Html.ActionLink("Пионовидные ", "Products", "Home")</li>
-                            <li>@Html.ActionLink("Кустовые ", "Products", "Home")</li>
-                            <li>@Html.ActionLink("Альстромерии", "Products", "Home")</li>
-                            <li>@Html.ActionLink("Гвоздики", "Products", "Home")</li>
-                            <li>@Html.ActionLink("Георгины", "Products", "Home")</li>
-                            <li>@Html.ActionLink("Герберы", "Products", "Home")</li>
-                            <li>@Html.ActionLink("Гипсафилы", "Products", "Home")</li>
-                            <li>@Html.ActionLink("Каллы", "Products", "Home")</li>
-                            <li>@Html.ActionLink("Ирисы", "Products", "Home")</li>
-                            <li>@Html.ActionLink("Ландыши", "Products", "Home")</li>
-                            <li>@Html.ActionLink("Лилии", "Products", "Home")</li>
-                            <li>@Html.ActionLink("Орхидеи", "Products", "Home")</li>
-                            <li>@Html.ActionLink("Подсолнухи", "Products", "Home")</li>
-                            <li>@Html.ActionLink("Ранункулюсы", "Products", "Home")</li>
-                            <li>@Html.ActionLink("Ромашки", "Products", "Home")</li>
-                            <li>@Html.ActionLink("Сирень", "Products", "Home")</li>
-                            <li>@Html.ActionLink("Сухоцветы", "Products", "Home")</li>
-                            <li>@Html.ActionLink("Хризантемы", "Products", "Home")</li>
-                            <li>@Html.ActionLink("Антуриумы", "Products", "Home")</li>
-                            <li>@Html.ActionLink("Амариллисы", "Products", "Home")</li>
-                            <li>@Html.ActionLink("Гладиолусы", "Products", "Home")</li>
-                            <li>@Html.ActionLink("Лизиантусы ", "Products", "Home")</li>
+                            <li>@Html.ActionLink("Розы", "Products", "Home", new { flowersType = (int)FlowersType.Roses }, null)</li>
+                            <li>@Html.ActionLink("Пионы", "Products", "Home", new { flowersType = (int)FlowersType.Peonies }, null)</li>
+                            <li>@Html.ActionLink("Тюльпаны", "Products", "Home", new { flowersType = (int)FlowersType.Tulips }, null)</li>
+                            <li>@Html.ActionLink("Гортензии", "Products", "Home", new { flowersType = (int)FlowersType.Hydrangeas }, null)</li>
+                            <li>@Html.ActionLink("Пионовидные ", "Products", "Home", new { flowersType = (int)FlowersType.PeonyRoses }, null)</li>
+                            <li>@Html.ActionLink("Кустовые ", "Products", "Home", new { flowersType = (int)FlowersType.ShrubRoses }, null)</li>
+                            <li>@Html.ActionLink("Альстромерии", "Products", "Home", new { flowersType = (int)FlowersType.Alstroemeria }, null)</li>
+                            <li>@Html.ActionLink("Гвоздики", "Products", "Home", new { flowersType = (int)FlowersType.Carnations }, null)</li>
+                            <li>@Html.ActionLink("Георгины", "Products", "Home", new { flowersType = (int)FlowersType.Dahlias }, null)</li>
+                            <li>@Html.ActionLink("Герберы", "Products", "Home", new { flowersType = (int)FlowersType.Gerberas }, null)</li>
+                            <li>@Html.ActionLink("Гипсафилы", "Products", "Home", new { flowersType = (int)FlowersType.Gypsaphila }, null)</li>
+                            <li>@Html.ActionLink("Каллы", "Products", "Home", new { flowersType = (int)FlowersType.Calla }, null)</li>
+                            <li>@Html.ActionLink("Ирисы", "Products", "Home", new { flowersType = (int)FlowersType.Irises }, null)</li>
+                            <li>@Html.ActionLink("Ландыши", "Products", "Home", new { flowersType = (int)FlowersType.ValleyLilies }, null)</li>
+                            <li>@Html.ActionLink("Лилии", "Products", "Home", new { flowersType = (int)FlowersType.Lilies }, null)</li>
+                            <li>@Html.ActionLink("Орхидеи", "Products", "Home", new { flowersType = (int)FlowersType.Orchids }, null)</li>
+                            <li>@Html.ActionLink("Подсолнухи", "Products", "Home", new { flowersType = (int)FlowersType.Sunflowers }, null)</li>
+                            <li>@Html.ActionLink("Ранункулюсы", "Products", "Home", new { flowersType = (int)FlowersType.Ranunculus }, null)</li>
+                            <li>@Html.ActionLink("Ромашки", "Products", "Home", new { flowersType = (int)FlowersType.Daisies }, null)</li>
+                            <li>@Html.ActionLink("Сирень", "Products", "Home", new { flowersType = (int)FlowersType.Lilac }, null)</li>
+                            <li>@Html.ActionLink("Сухоцветы", "Products", "Home", new { flowersType = (int)FlowersType.DriedFlowers }, null)</li>
+                            <li>@Html.ActionLink("Хризантемы", "Products", "Home", new { flowersType = (int)FlowersType.Chrysanthemums }, null)</li>
+                            <li>@Html.ActionLink("Антуриумы", "Products", "Home", new { flowersType = (int)FlowersType.Anthuriums }, null)</li>
+                            <li>@Html.ActionLink("Амариллисы", "Products", "Home", new { flowersType = (int)FlowersType.Amaryllis }, null)</li>
+                            <li>@Html.ActionLink("Гладиолусы", "Products", "Home", new { flowersType = (int)FlowersType.Gladioli }, null)</li>
+                            <li>@Html.ActionLink("Лизиантусы ", "Products", "Home", new { flowersType = (int)FlowersType.Lisianthus }, null)</li>
+
+
                         </ul>
                     </div>
                 </div>

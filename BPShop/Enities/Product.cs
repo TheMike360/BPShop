@@ -28,12 +28,14 @@ namespace BPShop.Enities
 		Flowers,
 		MonoBouquet,
 		BoxFlowers,
+		EvroBouquet,
 		Toys,
 		Ballons,
 	}
 
 	public enum FlowersType
 	{
+		None,
 		Roses,
 		Peonies,
 		Tulips,
@@ -59,6 +61,7 @@ namespace BPShop.Enities
 		Anthuriums,
 		Amaryllis,
 		Gladioli,
-		Lisianthus
+		Lisianthus,
+		ValleyLilies
 	}
 }

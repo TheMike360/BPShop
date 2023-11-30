@@ -2,6 +2,7 @@
 using BPShop.Enities;
 using BPShop.Enums;
 using BPShop.Models;
+using BPShop.Services;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,18 +15,21 @@ namespace BPShop.Controllers
     public class HomeController : Controller
     {
         private readonly MYContext context;
+		private readonly TelegramBotService telegramBotService;
 
-        public HomeController() : this(new MYContext())
+		public HomeController() : this(new MYContext(), new TelegramBotService("6007708993:AAG6yGNLeGOJ-v6QLjyV6XdzkTKX9crBAoQ"))
         {
         }
 
-        public HomeController(MYContext context)
+        public HomeController(MYContext context, TelegramBotService telegramBotService)
         {
             this.context = context;
+			this.telegramBotService = telegramBotService;
         }
 
         public async Task<ActionResult> Index()
         {
+            //telegramBotService.StartReceiving();
             IQueryable<Product> products = context.Products.OrderByDescending(x => x.ID);
             //для range slider цены
             ViewBag.MaxCost = (int)products.Select(x => x.Cost).Max();
@@ -38,9 +42,9 @@ namespace BPShop.Controllers
 		public async Task<ActionResult> Products(decimal maxRange = 0, decimal minRange = 0,
 			SortType sortType = SortType.defaultSort, string search = "", ProductType productType = ProductType.Flowers,
 			FlowersType flowersType = FlowersType.None)
-		{
-			//вид сортировки
-			ViewBag.SortType = sortType;
+        {
+            //вид сортировки
+            ViewBag.SortType = sortType;
 			var cart = GetCart();
 
 			ViewBag.IsHaveCart = cart.Count() > 0;
@@ -153,6 +157,8 @@ namespace BPShop.Controllers
             }
 
             order.Time = DateTime.Now;
+
+            await telegramBotService.ProcessMessageAsync(1153021020, "Оу дратути");
 
             context.Orders.Add(order);
             await context.SaveChangesAsync();

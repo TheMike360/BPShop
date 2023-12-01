@@ -29,7 +29,7 @@ namespace BPShop.Controllers
 
         public async Task<ActionResult> Index()
         {
-            //telegramBotService.StartReceiving();
+            telegramBotService.StartReceiving();
             IQueryable<Product> products = context.Products.OrderByDescending(x => x.ID);
             //для range slider цены
             ViewBag.MaxCost = (int)products.Select(x => x.Cost).Max();
@@ -158,7 +158,7 @@ namespace BPShop.Controllers
 
             order.Time = DateTime.Now;
 
-            await telegramBotService.ProcessMessageAsync(1153021020, "Оу дратути");
+            await telegramBotService.ProcessMessageAsync(1153021020, await GenOrderMessage(order));
 
             context.Orders.Add(order);
             await context.SaveChangesAsync();
@@ -175,6 +175,29 @@ namespace BPShop.Controllers
         {
             return View();
         }
+
+        private async Task<string> GenOrderMessage(Order order)
+		{
+			int[] productIds = order.ProductIds.Split(',').Select(int.Parse).ToArray();
+            int[] orderCountItems = order.Count.Split(',').Select(int.Parse).ToArray();
+            List<Product> products = await context.Products.Where(x => productIds.Contains(x.ID)).ToListAsync();
+
+            string message = $"Поступил новый заказ:\r\n";
+            decimal totalSum = 0;
+
+            for (int i = 0; i < productIds.Count(); i++) {
+                totalSum += products[i].Cost * orderCountItems[i];
+                message += $@"{products[i].Name}
+                            Заказанное количество: {orderCountItems[i]} 
+                            ID продукта: {products[i].ID}
+                            Цена за штуку: {products[i].Cost}
+                            
+                            ";
+            }
+            message += $"\r\n \r\n Итоговая сумма: {totalSum}";
+            return message;
+
+		}
 
         private List<CartModel> GetCart()
         {

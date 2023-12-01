@@ -1,46 +1,41 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Args;
+using Telegram.Bot.Polling;
+using Telegram.Bot.Types;
 
 namespace BPShop.Services
 {
 	public class TelegramBotService
 	{
-		private readonly ITelegramBotClient _botClient;
+		private readonly ITelegramBotClient botClient;
 
 		public TelegramBotService(string botToken)
 		{
-			_botClient = new TelegramBotClient(botToken);
-			_botClient.OnMessage += BotOnMessageReceived;
-			_botClient.OnMessageEdited += BotOnMessageReceived;
+			botClient = new TelegramBotClient(botToken);
 		}
 
-		public void StartReceiving()
+		public void  StartReceiving()
 		{
-			_botClient.StartReceiving();
+			var token = new CancellationTokenSource();
+			botClient.StartReceiving(OnMessage, ErrorMessage, new ReceiverOptions { AllowedUpdates = { } }, token.Token);
 		}
 
-		public void StopReceiving()
+		private async Task OnMessage(ITelegramBotClient bot, Update update, CancellationToken cancellationToken)
 		{
-			_botClient.StopReceiving();
 		}
 
-		private async void BotOnMessageReceived(object sender, MessageEventArgs e)
+		private async Task ErrorMessage(ITelegramBotClient bot, Exception exception, CancellationToken cancellationToken)
 		{
-			var message = e.Message;
-
-			if (message.Text != null)
-			{
-				//Console.WriteLine($"Received a text message in chat {message.Chat.Id}: {message.Text}");
-
-				//await ProcessMessageAsync(message.Chat.Id, message.Text);
-			}
 		}
+
+
 
 		public async Task ProcessMessageAsync(long chatId, string messageText)
 		{
-			await _botClient.SendTextMessageAsync(chatId, $"Received message: {messageText}");
+			await botClient.SendTextMessageAsync(chatId, messageText);
 		}
 	}
 }

@@ -414,6 +414,7 @@ hr {
 .modal {
     display: none;
     position: fixed;
+    z-index: 99;
     top: 0;
     left: 0;
     width: 100%;
@@ -679,6 +680,56 @@ input::-webkit-inner-spin-button {
     font-size: 25px;
     padding: 1rem 0;
 }
+.bg-loader{
+    z-index: 100;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    background: rgba(150,150,150,.5);
+}
+
+.loader {
+    z-index: 101;
+    position: fixed;
+    top: calc(50% - 43px);
+    right: calc(50% - 43px);
+    width: 86.4px;
+    height: 86.4px;
+    color: #474bff;
+    background: linear-gradient(currentColor 0 0) left 28.8px top 0, linear-gradient(currentColor 0 0) top 28.8px right 0, linear-gradient(currentColor 0 0) right 28.8px bottom 0, linear-gradient(currentColor 0 0) bottom 28.8px left 0;
+    background-size: calc(100%/3) calc(100%/3);
+    background-repeat: no-repeat;
+    animation: shapes-dqf486 0.6000000000000001s infinite alternate linear, shapes-g0d60l 1.2000000000000002s infinite;
+}
+
+#AddProductsForms {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#RenderBody {
+    width: 100%;
+}
+
+@keyframes shapes-dqf486 {
+    90%, 100% {
+        background-size: calc(2*100%/3) calc(100%/3),calc(100%/3) calc(2*100%/3);
+    }
+}
+
+@keyframes shapes-g0d60l {
+    0%, 49.99% {
+        transform: scaleX(1);
+    }
+
+    50%, 100% {
+        transform: scaleX(-1);
+    }
+}
+
 /*~~~~~~~~~~~~~~~~~~~~mobile version styles~~~~~~~~~~~~~~~~~~*/
 @media screen and (max-width : 720px) {
     .slider {
@@ -710,7 +761,7 @@ input::-webkit-inner-spin-button {
         align-items: center;
         position: fixed;
         top: 15px;
-        left: 15px;
+        right: 15px;
         width: 26px;
         height: 26px;
         cursor: pointer;
@@ -745,12 +796,13 @@ input::-webkit-inner-spin-button {
             }
 
     .burger-dropdown-navbar-items {
+        z-index: 1;
         display: block;
         position: fixed;
         overflow-y: auto;
         visibility: hidden;
         top: 0;
-        left: -100%;
+        right: -100%;
         width: 150px;
         height: auto;
         margin: 0;
@@ -811,7 +863,7 @@ input::-webkit-inner-spin-button {
 
     #burger-toggle:checked ~ .burger-dropdown-navbar-items {
         visibility: visible;
-        left: 0;
+        right: 0;
     }
 
     .burger-button span,

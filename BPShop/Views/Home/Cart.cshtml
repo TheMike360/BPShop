@@ -34,6 +34,9 @@
                 </div>
             </div>
             <p id="productCostId_@product.ID" class="cartDesc">@product.Cost</p>
+            <div>
+                <span style="margin: 5px; cursor: pointer;" id="removeItem" onclick="removeItem(@product.ID)">&times;</span>
+            </div>
         </div>
     }
     <p class="totalSum">Сумма: <span id="cost">@totalSum</span> тг</p>
@@ -71,6 +74,22 @@
         <button type="submit" class="order-button" onclick="confirmOrder()">Оформить заказ</button>
     </div>
     <script>
+        function removeItem(productId) {
+            showLoader();
+            $.ajax({
+                method: 'get',
+                url: '@Url.Action("RemoveFromCart")',
+                contentType: "application/json; charset=utf-8",
+                data: { productId: productId},
+             }).done(function (data) {
+                 hideLoader();
+             }).fail(function () {
+                 hideLoader();
+                 alert("Ошибка при добавлении в корзину");
+                 return false;
+             });
+        };
+
         $(document).ready(function () {
             $('#yourPhoneNumber').inputmask("+7(999) 999-99-99");
         });
@@ -90,6 +109,7 @@
         }
 
         function confirmOrder() {
+            showLoader();
             var productIds = [];
             var quantities = [];
 
@@ -121,14 +141,19 @@
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify(orderData),
                 }).done(function (data) {
+                    hideLoader()();
                     if (data == -1) {
                         alert("Не корректно заполнено поле 'Ваш номер телефона'");
                     }
                     $(this).addClass('done');
-                
+                }).fail(function () {
+                    hideLoader();
+                    alert("Ошибка при добавлении в корзину");
+                    return false;
                 });
             }
             else {
+                hideLoading();
                 alert("Не все данные заполнены!");
             }
         }

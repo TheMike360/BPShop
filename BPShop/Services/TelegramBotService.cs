@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot;
-using Telegram.Bot.Args;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 
@@ -17,7 +16,7 @@ namespace BPShop.Services
 			botClient = new TelegramBotClient(botToken);
 		}
 
-		public void  StartReceiving()
+		public void StartReceiving()
 		{
 			var token = new CancellationTokenSource();
 			botClient.StartReceiving(OnMessage, ErrorMessage, new ReceiverOptions { AllowedUpdates = { } }, token.Token);

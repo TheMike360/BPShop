@@ -244,6 +244,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Context\MYContext.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Enities\Order.cs" />
     <Compile Include="Enities\Product.cs" />
@@ -281,6 +282,7 @@
     <Content Include="Content\imgs\flowers2.jpg" />
     <Content Include="Content\imgs\flowers3.jpg" />
     <Content Include="Content\imgs\flowers4.jpg" />
+    <Content Include="Content\imgs\miniLogo.ico" />
     <Content Include="Content\productImgs\img.jpg" />
     <Content Include="Content\productImgs\ing.jpg" />
     <Content Include="Content\imgs\inst.png" />
@@ -292,6 +294,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="miniLogo.ico" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
@@ -322,9 +325,9 @@
     <Content Include="Views\Home\Products.cshtml" />
     <Content Include="Views\Home\ShowProduct.cshtml" />
     <Content Include="Views\Home\Cart.cshtml" />
-    <Content Include="Views\Home\AdminPanel.cshtml" />
-    <Content Include="Views\Home\AddProductsForm.cshtml" />
-    <Content Include="Views\Home\GetProductsTable.cshtml" />
+    <Content Include="Views\Admin\AdminPanel.cshtml" />
+    <Content Include="Views\Admin\AddProductsForm.cshtml" />
+    <Content Include="Views\Admin\GetProductsTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -345,6 +348,9 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>miniLogo.ico</ApplicationIcon>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

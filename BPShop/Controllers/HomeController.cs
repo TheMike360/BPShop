@@ -29,13 +29,17 @@ namespace BPShop.Controllers
 
         public async Task<ActionResult> Index()
         {
+            var cart = GetCart();
+            ViewBag.IsHaveCart = cart.Count() > 0;
+            ViewBag.CartCount = countCartItems(cart);
+
             telegramBotService.StartReceiving();
             IQueryable<Product> products = context.Products.OrderByDescending(x => x.ID);
             //для range slider цены
             ViewBag.MaxCost = (int)products.Select(x => x.Cost).Max();
             ViewBag.MinCost = (int)products.Select(x => x.Cost).Min();
 
-            List<Product> result = await products.Take(10).ToListAsync();
+            List<Product> result = await products.Take(12).ToListAsync();
             return View(result);
         }
 
@@ -126,6 +130,20 @@ namespace BPShop.Controllers
             return View(await context.Products.Where(x => addedCartPoructIds.Contains(x.ID)).ToListAsync());
         }
 
+        public int RemoveFromCart(int productId)
+        {
+            List<CartModel> cart = GetCart();
+
+            CartModel existingItem = cart.FirstOrDefault(item => item.ProductId == productId);
+
+            if (existingItem != null)
+            {
+                cart.Remove(existingItem);
+            }
+
+            return 0;
+        }
+
         public int AddToCart(int productId, int quantity = 1)
         {
             List<CartModel> cart = GetCart();
@@ -158,7 +176,7 @@ namespace BPShop.Controllers
 
             order.Time = DateTime.Now;
 
-            await telegramBotService.ProcessMessageAsync(1153021020, await GenOrderMessage(order));
+            await telegramBotService.ProcessMessageAsync(-1002085221508, await GenOrderMessage(order));
 
             context.Orders.Add(order);
             await context.SaveChangesAsync();
@@ -187,14 +205,15 @@ namespace BPShop.Controllers
 
             for (int i = 0; i < productIds.Count(); i++) {
                 totalSum += products[i].Cost * orderCountItems[i];
-                message += $@"{products[i].Name}
-                            Заказанное количество: {orderCountItems[i]} 
-                            ID продукта: {products[i].ID}
-                            Цена за штуку: {products[i].Cost}
-                            
-                            ";
+                message += $"{products[i].Name}\r\nЗаказанное количество: {orderCountItems[i]}\r\n" +
+                            $"ID продукта: {products[i].ID} \r\nЦена за штуку: {products[i].Cost}\r\n \r\n";
             }
-            message += $"\r\n \r\n Итоговая сумма: {totalSum}";
+            message += $"\r\n\r\nИтоговая сумма: {totalSum}";
+
+            message += $"\r\n\r\nЗаказчик: {order.HisName} \r\nИмя получателя: {order.RecipientName} \r\n" 
+                        + $"Номер телефона заказчика: {order.Phone} \r\nКонтакты получателя: {order.RecipientContact} \r\n"
+                        + $"Адрес доставки: {order.Address} \r\nНужно доставить в {order.DeliverDate} \r\n"
+                        + $"Почта заказчика: {order.Email}";
             return message;
 
 		}
@@ -208,29 +227,6 @@ namespace BPShop.Controllers
                 Session["Cart"] = cart;
             }
             return cart;
-        }
-
-        public ActionResult AdminPanel()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task AdminPanelAdd(Product product)
-        {
-            context.Products.Add(product);
-            await context.SaveChangesAsync();
-        }
-
-        public ActionResult AddProductsForm()
-        {
-            return View();
-        }
-
-        public ActionResult GetProductsTable()
-        {
-            IQueryable<Product> Products = context.Products.OrderByDescending(x => x.ID);
-            return View(Products);
         }
 
         private int countCartItems(List<CartModel> cart)

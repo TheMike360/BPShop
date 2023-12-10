@@ -243,8 +243,10 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Common\AdminAuthorizeAttribute.cs" />
     <Compile Include="Context\MYContext.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Enities\Order.cs" />
     <Compile Include="Enities\Product.cs" />
@@ -328,6 +330,8 @@
     <Content Include="Views\Admin\AdminPanel.cshtml" />
     <Content Include="Views\Admin\AddProductsForm.cshtml" />
     <Content Include="Views\Admin\GetProductsTable.cshtml" />
+    <Content Include="Views\Auth\Login.cshtml" />
+    <Content Include="Views\Admin\ImagesPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

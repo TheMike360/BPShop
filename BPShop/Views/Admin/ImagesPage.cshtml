@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "ImagesPage";
+    Layout = null;
+
+    var imagePaths = ViewBag.ImagePaths as string[];
+    var fileNames = ViewBag.FileNames as string[];
+}
+<style>
+    #imageGrid {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .imageContainer {
+        max-width: 250px; 
+        margin: 2rem;
+    }
+</style>
+
+<h2>Фотографии на сервер</h2>
+<div id="imageGrid">
+    @for (int i = 0; i < imagePaths.Length; i++)
+    {
+        <div class="imageContainer">
+            <img src="/Content/productImgs/@fileNames[i]" alt="Product Image" />
+            <p>@fileNames[i]</p>
+        </div>
+    }
+</div>
+

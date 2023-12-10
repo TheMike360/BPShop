@@ -71,7 +71,7 @@ namespace BPShop.Controllers
 			if (!string.IsNullOrEmpty(search))
 			{
 				ViewBag.Search = search;
-				products = products.Where(x => x.SearhPrompt.Contains(search));
+				products = products.Where(x => x.SearchPrompt.Contains(search));
 			}
 
 			if (!products.Any())

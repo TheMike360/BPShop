@@ -1,7 +1,8 @@
-﻿using BPShop.Context;
+﻿using BPShop.Common;
+using BPShop.Context;
 using BPShop.Enities;
 using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -9,6 +10,7 @@ using System.Web.Mvc;
 
 namespace BPShop.Controllers
 {
+    [AdminAuthorize]
     public class AdminController : Controller
     {
 		private readonly MYContext context;
@@ -27,13 +29,37 @@ namespace BPShop.Controllers
         }
 
         [HttpPost]
-        public async Task AdminPanelAdd(Product product)
+        public async Task AdminPanelAdd(Product product, HttpPostedFileBase file)
         {
-            context.Products.Add(product);
+			if (file != null && file.ContentLength > 0)
+			{
+				string fileName = Path.GetFileName(file.FileName);
+
+				string filePath = Path.Combine(Server.MapPath("~/Content/productImgs"), fileName);
+				file.SaveAs(filePath);
+                product.ImgRef = "~/Content/productImgs" + fileName;
+			}
+
+			context.Products.Add(product);
             await context.SaveChangesAsync();
         }
 
-        public ActionResult AddProductsForm()
+		public ActionResult ImagesPage()
+		{
+			string folderPath = Server.MapPath("~/Content/productImgs");
+			string[] imagePaths = Directory.GetFiles(folderPath);
+
+			// Извлекаем имена файлов из путей
+			string[] fileNames = imagePaths.Select(path => Path.GetFileName(path)).ToArray();
+
+			// Передаем имена файлов и пути к изображениям в представление
+			ViewBag.ImagePaths = imagePaths;
+			ViewBag.FileNames = fileNames;
+
+			return View();
+		}
+
+		public ActionResult AddProductsForm()
         {
             return View();
         }
@@ -43,5 +69,5 @@ namespace BPShop.Controllers
             IQueryable<Product> Products = context.Products.OrderByDescending(x => x.ID);
             return View(Products);
         }
-    }
+	}
 }

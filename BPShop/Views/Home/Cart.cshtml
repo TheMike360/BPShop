@@ -23,7 +23,7 @@
             }
         }
 
-        <div class="cartProduct">
+        <div class="cartProduct" id="cartProduct_@product.ID">
             <img src="@product.ImgRef" alt="Товар" class="cartDesc">
             <div style="flex-wrap: wrap;">
                 <p class="cartDesc name">@product.Name</p>
@@ -65,24 +65,33 @@
 
         <label>Способ оплаты:</label>
         <select id="payType" name="payType" required>
-            <option value="0">Kaspi</option>
             <option value="1">Наличными при доставке</option>
-            <option value="2">Картой</option>
         </select>
 
-        <p class="totalSum">Сумма: @totalSum тг</p>
         <button type="submit" class="order-button" onclick="confirmOrder()">Оформить заказ</button>
     </div>
     <script>
         function removeItem(productId) {
-            showLoader();
+            showLoader(); 
+            var quantity = parseInt($("#quantity_" + productId).val());
+            var productCost = parseInt($("#productCostId_" + productId).text());
+            var totalCost = parseFloat($("#cost").text());
+            var newCost = totalCost - (productCost * quantity);
+
             $.ajax({
                 method: 'get',
                 url: '@Url.Action("RemoveFromCart")',
                 contentType: "application/json; charset=utf-8",
                 data: { productId: productId},
-             }).done(function (data) {
-                 hideLoader();
+            }).done(function (data) {
+                var element = document.getElementById("cartProduct_" + productId);
+                element.parentNode.removeChild(element);
+                $("#cost").text(newCost); 
+                if (!$('.cartProduct').length > 0) {
+                    modal.style.display = 'none';
+                    $('.cartBtn').hide();
+                }
+                hideLoader();
              }).fail(function () {
                  hideLoader();
                  alert("Ошибка при добавлении в корзину");

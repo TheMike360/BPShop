@@ -266,6 +266,10 @@
     <Compile Include="Migrations\20231119151728_addOrderTable.designer.cs">
       <DependentUpon>20231119151728_addOrderTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20231219155417_row.cs" />
+    <Compile Include="Migrations\20231219155417_row.designer.cs">
+      <DependentUpon>20231219155417_row.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\MYContextModelSnapshot.cs" />
     <Compile Include="Models\CartModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

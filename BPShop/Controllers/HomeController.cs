@@ -34,7 +34,7 @@ namespace BPShop.Controllers
             ViewBag.CartCount = countCartItems(cart);
 
             telegramBotService.StartReceiving();
-            IQueryable<Product> products = context.Products.OrderByDescending(x => x.ID);
+			IQueryable<Product> products = context.Products.OrderByDescending(x => x.ID);
             //для range slider цены
             ViewBag.MaxCost = (int)products.Select(x => x.Cost).Max();
             ViewBag.MinCost = (int)products.Select(x => x.Cost).Min();

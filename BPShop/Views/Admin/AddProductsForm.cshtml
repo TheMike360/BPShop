@@ -4,34 +4,34 @@
     Layout = null;
 }
 
-<form id = "AddProductsForms" method="post" controller="Home" action="AdminPanelAdd" enctype="multipart/form-data">
+<form id="AddProductsForms" method="post" controller="Admin" action="AdminPanelAdd" enctype="multipart/form-data">
 
     <label for="Name"><h3>Введите название продукта</h3></label>
-    <input type="text" name="Name" required/>
+    <input type="text" name="Name" required />
 
     <label for="Cost"><h3>Введите цену продукта</h3></label>
-    <input type="number" name="Cost" required/>
+    <input type="number" name="Cost" required />
 
     <label for="Description"><h3>Опишите продукт</h3></label>
-    <input type="text" name="Description" required/>
+    <input type="text" name="Description" required />
 
     <label for="Count"><h3>Введите количество цветов</h3></label>
-    <input type="number" name="Count" required/>
+    <input type="number" name="Count" required />
 
     <label for="CountFlowerInBouquet"><h3>Введите количество цветов в букете</h3></label>
-    <input type="number" name="CountFlowersInBouquet" required/>
+    <input type="number" name="CountFlowersInBouquet" required />
 
     <label for="ProductType"><h3>Введите тип продукта</h3></label>
-    <input type="text" name="ProductType" value="" required/>
+    <input type="text" name="ProductType" value="" required />
 
     <label for="SearchPrompt"><h3>Поиск товара</h3></label>
-    <input type="search" name="SearhPrompt" value="" required/>
+    <input type="search" name="SearhPrompt" value="" required />
 
     <label for="FlowersType"><h3>Введите тип цветов</h3></label>
-    <input type="text" name="FlowersType" value="" required/>
+    <input type="text" name="FlowersType" value="" required />
 
-    <label for="file"><h3>Загрузите картинку цветов</h3></label>
-    <input type="file" name="file" value="" />
+    <label for="ImgRef"><h3>Путь к файлу</h3></label>
+    <input type="text" name="ImgRef" value="" required />
 
     <input type="submit" value="Добавить" />
 </form>

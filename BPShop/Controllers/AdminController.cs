@@ -29,20 +29,34 @@ namespace BPShop.Controllers
         }
 
         [HttpPost]
-        public async Task AdminPanelAdd(Product product, HttpPostedFileBase file)
+        public async Task AdminPanelAdd(Product product)
         {
-			if (file != null && file.ContentLength > 0)
-			{
-				string fileName = Path.GetFileName(file.FileName);
-
-				string filePath = Path.Combine(Server.MapPath("~/Content/productImgs"), fileName);
-				file.SaveAs(filePath);
-                product.ImgRef = "~/Content/productImgs" + fileName;
-			}
 
 			context.Products.Add(product);
             await context.SaveChangesAsync();
         }
+
+        [HttpPost]
+        public string AddNewImage(HttpPostedFileBase file)
+        {
+            try
+			{
+				if (file != null && file.ContentLength > 0)
+				{
+					string fileName = Path.GetFileName(file.FileName);
+
+					string filePath = Path.Combine(Server.MapPath("~/Content/productImgs"), fileName);
+					file.SaveAs(filePath);
+					return "ok";
+				}
+				else
+					return "Не удалось получить файл";
+			}
+            catch(Exception e) 
+            {
+                return e.Message + "\r\n\r\n\r\n" + e.StackTrace;
+            }
+		}
 
 		public ActionResult ImagesPage()
 		{

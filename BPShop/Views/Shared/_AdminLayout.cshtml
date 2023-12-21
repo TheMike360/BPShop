@@ -1,7 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "AdminPanel";
-    Layout = ViewBag.Layout;
+    ViewBag.Title = "_AdminLayout";
 }
 
 @Styles.Render("~/Content/css")
@@ -64,18 +63,22 @@
         }
 </style>
 
-<h1>Привет</h1>
+<div class="bg-loader">
+    <div class="loader"></div>
+</div>
+<h1>AdminPanel</h1>
 
+<div class="flex" style="width: 100%">
+    <div class="navPanel">
+        <a href="@Url.Action("GetProductsTable", "Admin")"><input type="button" value="Продукты" /></a>
+        <a href="@Url.Action("AddProductsForm", "Admin")"><input type="button" value="Добавить товары" /></a>
+        <a href="@Url.Action("ImagesPage", "Admin")"><input type="button" value="Картинки на сервере" /></a>
+        <a href="@Url.Action("Index", "Home")"><input type="button" value="Главная" /></a>
+    </div>
+    <div id="RenderBody">
+        @RenderBody()
+    </div>
+</div>
 
-
-
-
-
-
-
-
-
-
-
-
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/Content/Site.js"></script>

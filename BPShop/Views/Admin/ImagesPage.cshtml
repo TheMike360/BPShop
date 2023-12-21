@@ -1,7 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "ImagesPage";
-    Layout = null;
+    Layout = ViewBag.Layout;
 
     var imagePaths = ViewBag.ImagePaths as string[];
     var fileNames = ViewBag.FileNames as string[];
@@ -28,11 +28,38 @@
     }
 </div>
 
-<form id="AddProductsForms" method="post" controller="Admin" action="AddNewImage" enctype="multipart/form-data">
+@*<form id="AddProductsForms" method="post" controller="Admin" action="AddNewImage" enctype="multipart/form-data">*@
 
     <label for="file"><h3>Загрузите картинку цветов</h3></label>
-    <input type="file" name="file" value="" />
+    <input type="file" name="file" id="fileInput" value="" />
 
-    <input type="submit" value="Добавить" />
-</form>
+    <input type="submit" value="Добавить" onclick="uploadFile()" />
+@*</form>*@
+
+<script>
+    function uploadFile() {
+        showLoader();
+        var formData = new FormData();
+        var fileInput = document.getElementById('fileInput');
+        var file = fileInput.files[0];
+
+        formData.append('file', file);
+
+        $.ajax({
+            url: '/Admin/AddNewImage',
+            type: 'POST',
+            data: formData,
+            contentType: false, 
+            processData: false, 
+            success: function (response) {
+                hideLoader();
+                console.log('File uploaded successfully');
+            },
+            error: function (xhr, status, error) {
+                hideLoader();
+                console.error('Upload failed:', error);
+            }
+        });
+    }
+</script>
 

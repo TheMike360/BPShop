@@ -10,36 +10,41 @@ using System.Web.Mvc;
 
 namespace BPShop.Controllers
 {
-    [AdminAuthorize]
-    public class AdminController : Controller
-    {
+	[AdminAuthorize]
+	public class AdminController : Controller
+	{
+		protected override void OnActionExecuting(ActionExecutingContext filterContext)
+		{
+			base.OnActionExecuting(filterContext);
+			ViewBag.Layout = "~/Views/Shared/_AdminLayout.cshtml";
+		}
 		private readonly MYContext context;
-        
-        public AdminController() : this(new MYContext())
-        {
-        }
-        public AdminController(MYContext context)
-        {
+
+		public AdminController() : this(new MYContext())
+		{
+		}
+		public AdminController(MYContext context)
+		{
 			this.context = context;
 		}
 
-        public ActionResult AdminPanel()
-        {
-            return View();
-        }
+		public ActionResult AdminPanel()
+		{
+			return View();
+		}
 
-        [HttpPost]
-        public async Task AdminPanelAdd(Product product)
-        {
+		[HttpPost]
+		public async Task AdminPanelAdd(Product product)
+		{
 
 			context.Products.Add(product);
-            await context.SaveChangesAsync();
-        }
+			await context.SaveChangesAsync();
+		}
 
-        [HttpPost]
-        public string AddNewImage(HttpPostedFileBase file)
-        {
-            try
+		[HttpPost]
+		public ActionResult AddNewImage(HttpPostedFileBase file)
+		{
+			try
 			{
 				if (file != null && file.ContentLength > 0)
 				{
@@ -47,17 +52,16 @@ namespace BPShop.Controllers
 
 					string filePath = Path.Combine(Server.MapPath("~/Content/productImgs"), fileName);
 					file.SaveAs(filePath);
-					return "ok";
+					return View("ImagesPage");
 				}
 				else
-					return "Не удалось получить файл";
+					return Redirect("ErrorPage");
 			}
-            catch(Exception e) 
-            {
-                return e.Message + "\r\n\r\n\r\n" + e.StackTrace;
-            }
+			catch (Exception e)
+			{
+				return RedirectToAction("ErrorPage", new { Error = e.InnerException + "\r\n\r\n\r\n" + e.StackTrace  });
+			}
 		}
-
 		public ActionResult ImagesPage()
 		{
 			string folderPath = Server.MapPath("~/Content/productImgs");
@@ -74,14 +78,20 @@ namespace BPShop.Controllers
 		}
 
 		public ActionResult AddProductsForm()
-        {
-            return View();
-        }
+		{
+			return View();
+		}
 
-        public ActionResult GetProductsTable()
-        {
-            IQueryable<Product> Products = context.Products.OrderByDescending(x => x.ID);
-            return View(Products);
-        }
+		public ActionResult GetProductsTable()
+		{
+			IQueryable<Product> Products = context.Products.OrderByDescending(x => x.ID);
+			return View(Products);
+		}
+
+		public ActionResult ErrorPage(string Error = null)
+		{
+			ViewBag.Error = Error;
+			return View();
+		}
 	}
 }

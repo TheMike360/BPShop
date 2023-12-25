@@ -7,8 +7,14 @@ namespace BPShop.Context
 	{
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-			string connectionString = "server=localhost;user=root;password=;database=BPDataBase;";
-			optionsBuilder.UseMySQL(connectionString);
+#if DEBUG
+			//string connectionString = "server=localhost;user=root;password=;database=BPDataBase;";
+			string connectionString = "Server=srv-wpleskdb01.ps.kz:3306;Database=bpflower_db;User Id=bpflower_user;Password=20S2@d01Dude;";
+#else
+            string connectionString = "Server=srv-wpleskdb01.ps.kz:3306;Database=bpflower_db;User Id=bpflower_user;Password=20S2@d01Dude;";
+#endif
+
+            optionsBuilder.UseMySQL(connectionString);
 		}
 
 		public DbSet<Product> Products { get; set; }

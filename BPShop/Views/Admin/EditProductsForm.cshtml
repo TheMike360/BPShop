@@ -1,0 +1,97 @@
+﻿@using BPShop.Enities
+@model BPShop.Enities.Product
+
+@{
+    ViewBag.Title = "EditProductsForm";
+    Layout = null;
+    int cost = Convert.ToInt32(Model.Cost);
+}
+
+
+<style>
+    #EditProductsForms {
+        width: 420px;
+        margin: auto;
+        text-align: center;
+        margin-left: 31%;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input {
+        margin-bottom: 5px;
+    }
+
+        input[type="submit"] {
+            background: #d26b57;
+            width: 250px;
+            height: 50px;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 10px;
+            cursor: pointer;
+            border: none;
+            margin-top: 15px;
+        }
+</style>
+
+<form id="EditProductsForms" method="post" controller="Admin" action="SaveEdit" enctype="multipart/form-data">
+
+    <input type="hidden" name="ID" value="@Model.ID" />
+
+    <label for="Name"><h3>Введите название продукта</h3></label>
+    <input type="text" name="Name" value="@Model.Name" required />
+
+    <label for="Cost"><h3>Введите цену продукта</h3></label>
+    <input type="number" name="Cost" value="@cost" required />
+
+    <label for="Description"><h3>Опишите продукт</h3></label>
+    <input type="text" name="Description" value="@Model.Description" required />
+
+    <label for="Count"><h3>Введите количество цветов</h3></label>
+    <input type="number" name="Count" value="@Model.Count" required />
+
+    <label for="CountFlowerInBouquet"><h3>Введите количество цветов в букете</h3></label>
+    <input type="number" name="CountFlowersInBouquet" value="@Model.CountFlowersInBouquet" required />
+
+    <label for="ProductType"><h3>Введите тип продукта</h3></label>
+    <select name="ProductType" required>
+        @foreach (ProductType productType in Enum.GetValues(typeof(ProductType)))
+        {
+            if (productType == Model.ProductType)
+            {
+                <option value="@productType" selected>@productType.ToString()</option>
+            }
+            else
+            {
+                <option value="@productType">@productType.ToString()</option>
+            }
+        }
+    </select>
+
+    <label for="SearchPrompt"><h3>Поиск товара</h3></label>
+    <input type="search" name="SearhPrompt" value="@Model.SearchPrompt" required />
+
+    <label for="FlowersType"><h3>Введите тип цветов</h3></label>
+    <select name="FlowersType" required>
+        @foreach (FlowersType flowerType in Enum.GetValues(typeof(FlowersType)))
+        {
+            if (flowerType == Model.FlowersType)
+            {
+                <option value="@flowerType" selected>@flowerType.ToString()</option>
+            }
+            else
+            {
+                <option value="@flowerType">@flowerType.ToString()</option>
+            }
+        }
+    </select>
+
+    <label for="ImgRef"><h3>Путь к файлу</h3></label>
+    <input type="text" name="ImgRef" value="@Model.ImgRef" required />
+
+    <input type="submit" value="Редактировать"/>
+</form>

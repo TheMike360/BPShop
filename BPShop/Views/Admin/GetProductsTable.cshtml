@@ -10,6 +10,7 @@
         border-collapse: collapse;
         width: 40%;
         margin-top: 20px;
+        margin-left:80px;
     }
 
     th, td {
@@ -20,6 +21,19 @@
 
     tr:nth-child(even) {
         background-color: #f2f2f2;
+    }
+
+    .edit-button {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 12px;
+        margin: 2px;
+        cursor: pointer;
     }
 </style>
 
@@ -52,9 +66,21 @@
                 <td>@product.SearchPrompt</td>
                 <td>@product.FlowersType</td>
                 <td>@product.ImgRef</td>
+                <td><input onclick="EditProductsForm('@product.ID')" class="edit-button" type="button" value="Редактирование" /></td>
             </tr>
         }
-
     </tbody>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/Content/Site.js"></script>
+    <script>
+    function EditProductsForm(productId) {
+        showLoader();
+        $.get('@Url.Action("EditProductsForm")?productId=' + productId, function (data) {
+            hideLoader();
+            $('#RenderBody').html(data);
+        });
+    }
+    </script>
 </table>
 

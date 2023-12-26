@@ -1,4 +1,4 @@
-﻿
+﻿@using BPShop.Enities 
 @{
     ViewBag.Title = "AddProductsForm";
     Layout = null;
@@ -22,16 +22,25 @@
     <input type="number" name="CountFlowersInBouquet" required />
 
     <label for="ProductType"><h3>Введите тип продукта</h3></label>
-    <input type="text" name="ProductType" value="" required />
+    <select name="ProductType" required>
+        @foreach (ProductType productType in Enum.GetValues(typeof(ProductType)))
+        {
+            <option value="@productType">@productType.ToString()</option>
+        }
+    </select>
 
     <label for="SearchPrompt"><h3>Поиск товара</h3></label>
-    <input type="search" name="SearhPrompt" value="" required />
+    <input type="text" name="SearchPrompt" value="" required />
 
     <label for="FlowersType"><h3>Введите тип цветов</h3></label>
-    <input type="text" name="FlowersType" value="" required />
+    <select name="FlowersType" required>
+        @foreach (FlowersType flowerType in Enum.GetValues(typeof(FlowersType)))
+        {
+            <option value="@flowerType">@flowerType.ToString()</option>
+        }
+    </select>
+        <label for="ImgRef"><h3>Путь к файлу</h3></label>
+        <input type="text" name="ImgRef" value="" required />
 
-    <label for="ImgRef"><h3>Путь к файлу</h3></label>
-    <input type="text" name="ImgRef" value="" required />
-
-    <input type="submit" value="Добавить" />
+        <input onclick="ShowProducts()" id="Products" type="submit" value="Продукты" />
 </form>

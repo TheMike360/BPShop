@@ -336,6 +336,7 @@
     <Content Include="Views\Admin\GetProductsTable.cshtml" />
     <Content Include="Views\Auth\Login.cshtml" />
     <Content Include="Views\Admin\ImagesPage.cshtml" />
+    <None Include="Views\Admin\EditProductsForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

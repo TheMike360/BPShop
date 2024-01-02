@@ -15,7 +15,7 @@ namespace BPShop.Controllers
     public class HomeController : Controller
     {
         private readonly MYContext context;
-		private readonly TelegramBotService telegramBotService;
+		//private readonly TelegramBotService telegramBotService;
 
 		public HomeController() : this(new MYContext(), new TelegramBotService("6007708993:AAG6yGNLeGOJ-v6QLjyV6XdzkTKX9crBAoQ"))
         {
@@ -24,7 +24,7 @@ namespace BPShop.Controllers
         public HomeController(MYContext context, TelegramBotService telegramBotService)
         {
             this.context = context;
-			this.telegramBotService = telegramBotService;
+			//this.telegramBotService = telegramBotService;
         }
 
         public async Task<ActionResult> Index()
@@ -33,7 +33,7 @@ namespace BPShop.Controllers
             ViewBag.IsHaveCart = cart.Count() > 0;
             ViewBag.CartCount = countCartItems(cart);
 
-            telegramBotService.StartReceiving();
+            //telegramBotService.StartReceiving();
 			IQueryable<Product> products = context.Products.OrderByDescending(x => x.ID);
             //для range slider цены
             ViewBag.MaxCost = (int)products.Select(x => x.Cost).Max();
@@ -176,7 +176,7 @@ namespace BPShop.Controllers
 
             order.Time = DateTime.Now;
 
-            await telegramBotService.ProcessMessageAsync(-1002085221508, await GenOrderMessage(order));
+            //await telegramBotService.ProcessMessageAsync(-1002085221508, await GenOrderMessage(order));
 
             context.Orders.Add(order);
             await context.SaveChangesAsync();

@@ -15,7 +15,7 @@ namespace BPShop.Enities
 
 		[Required(ErrorMessage = "Поле 'Cost' обязательно для заполнения.")]
 		[Range(0, double.MaxValue, ErrorMessage = "Значение поля 'Cost' должно быть неотрицательным.")]
-		public decimal Cost { get; set; }
+		public decimal? Cost { get; set; }
 
 		[MaxLength(2000, ErrorMessage = "Максимальная длина поля 'Description' - 2000 символов.")]
 		[Required(ErrorMessage = "Поле 'Description' обязательно для заполнения.")]

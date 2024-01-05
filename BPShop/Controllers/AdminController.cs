@@ -36,7 +36,6 @@ namespace BPShop.Controllers
 		[HttpPost]
 		public async Task AdminPanelAdd(Product product)
 		{
-
 			context.Products.Add(product);
 			await context.SaveChangesAsync();
 		}

@@ -4,6 +4,9 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Security;
+using System.Configuration;
+using BPShop.Context;
+using System.Data.Entity;
 
 namespace BPShop
 {
@@ -11,6 +14,8 @@ namespace BPShop
 	{
 		protected void Application_Start()
 		{
+			Database.SetInitializer<MYContext>(null);
+
 			AreaRegistration.RegisterAllAreas();
 			FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
@@ -28,13 +33,10 @@ namespace BPShop
 					FormsIdentity id = (FormsIdentity)HttpContext.Current.User.Identity;
 					FormsAuthenticationTicket ticket = id.Ticket;
 
-					// ѕолучение данных из токена
 					string userData = ticket.UserData;
 
-					// –азделение данных, если они представл€ют собой строку с разделител€ми, например, через зап€тую
 					string[] userDataArray = userData.Split(',');
 
-					// ѕример: сохранение роли в HttpContext
 					HttpContext.Current.User = new System.Security.Principal.GenericPrincipal(id, userDataArray);
 				}
 			}

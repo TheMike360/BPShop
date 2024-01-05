@@ -3,9 +3,9 @@ using BPShop.Enities;
 using BPShop.Enums;
 using BPShop.Models;
 using BPShop.Services;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -204,9 +204,9 @@ namespace BPShop.Controllers
             decimal totalSum = 0;
 
             for (int i = 0; i < productIds.Count(); i++) {
-                totalSum += products[i].Cost * orderCountItems[i];
+                totalSum += products[i].Cost.Value * orderCountItems[i];
                 message += $"{products[i].Name}\r\nЗаказанное количество: {orderCountItems[i]}\r\n" +
-                            $"ID продукта: {products[i].ID} \r\nЦена за штуку: {products[i].Cost}\r\n \r\n";
+                            $"ID продукта: {products[i].ID} \r\nЦена за штуку: {products[i].Cost.Value}\r\n \r\n";
             }
             message += $"\r\n\r\nИтоговая сумма: {totalSum}";
 

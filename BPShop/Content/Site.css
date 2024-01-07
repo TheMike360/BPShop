@@ -714,6 +714,22 @@ input::-webkit-inner-spin-button {
     width: 100%;
 }
 
+.adminEedit-div {
+    display: flex;
+    align-items: center;
+}
+
+.edit-button {
+    background: #d26b57;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 10px;
+    cursor: pointer;
+    border: none;
+    padding: 5px;
+    margin: 5px;
+}
+
 @keyframes shapes-dqf486 {
     90%, 100% {
         background-size: calc(2*100%/3) calc(100%/3),calc(100%/3) calc(2*100%/3);

@@ -8,12 +8,12 @@
 <style>
     table {
         border-collapse: collapse;
-        width: 40%;
+        margin-right: 2rem;
         margin-top: 20px;
     }
 
     th, td {
-        border: 1px solid #ddd;
+        border: 1px solid black;
         padding: 8px;
         text-align: left;
     }
@@ -27,15 +27,16 @@
     <thead>
         <tr>
             <th>Id</th>
-            <th>Name</th>
-            <th>Cost</th>
-            <th>Description</th>
-            <th>Count</th>
-            <th>CountFlowersInBouquet</th>
-            <th>ProductType</th>
-            <th>SearchPrompt</th>
-            <th>FlowersType</th>
-            <th>ImgRef</th>
+            <th>Название</th>
+            <th>Цена</th>
+            <th>Описание</th>
+            <th>Количество</th>
+            <th>Количество цветков в букете</th>
+            <th>Тип продукта</th>
+            <th>Слова для поиска по сайту</th>
+            <th>Тип цветка</th>
+            <th>Название фото</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -52,9 +53,14 @@
                 <td>@product.SearchPrompt</td>
                 <td>@product.FlowersType</td>
                 <td>@product.ImgRef</td>
+                <td>
+                    <div class="adminEedit-div">
+                        <a href="@Url.Action("EditProductsForm", new {productId = product.ID})" class="edit-button">Редактировать</a>
+                        <a href="@Url.Action("DeleteProduct", new { productId = product.ID})">🗑️</a>
+                    </div>
+                </td>
             </tr>
         }
-
     </tbody>
 </table>
 

@@ -1,10 +1,19 @@
-﻿
+﻿﻿@using BPShop.Enities
 @{
     ViewBag.Title = "AddProductsForm";
     Layout = ViewBag.Layout;
 }
 
-<form id="AddProductsForms" method="post" controller="Admin" action="AdminPanelAdd" enctype="multipart/form-data">
+@if (ViewBag.IsAdded != null)
+{
+<div class="notify-block">
+    <div class="notify-item">
+        Новый товар создан
+    </div>
+</div>
+}
+
+<form id="AddProductsForms" method="post" controller="Admin" action="AddNewProduct" enctype="multipart/form-data">
 
     <label for="Name"><h3>Введите название продукта</h3></label>
     <input type="text" name="Name" required />
@@ -22,13 +31,25 @@
     <input type="number" name="CountFlowersInBouquet" required />
 
     <label for="ProductType"><h3>Введите тип продукта</h3></label>
-    <input type="text" name="ProductType" value="" required />
+    <select name="ProductType" required>
+        @foreach (ProductType productType in Enum.GetValues(typeof(ProductType)))
+        {
+            int prType = (int)productType;
+            <option value="@prType">@productType.ToString()</option>
+        }
+    </select>
 
     <label for="SearchPrompt"><h3>Поиск товара</h3></label>
-    <input type="search" name="SearhPrompt" value="" required />
+    <input type="text" name="SearchPrompt" value="" required />
 
     <label for="FlowersType"><h3>Введите тип цветов</h3></label>
-    <input type="text" name="FlowersType" value="" required />
+    <select name="FlowersType" required>
+        @foreach (FlowersType flowerType in Enum.GetValues(typeof(FlowersType)))
+        {
+            int flType = (int)flowerType;
+            <option value="@flType">@flowerType.ToString()</option>
+        }
+    </select>
 
     <label for="ImgRef"><h3>Путь к файлу</h3></label>
     <input type="text" name="ImgRef" value="" required />

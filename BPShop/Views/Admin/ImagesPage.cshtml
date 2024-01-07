@@ -28,15 +28,15 @@
     }
 </div>
 
-@*<form id="AddProductsForms" method="post" controller="Admin" action="AddNewImage" enctype="multipart/form-data">*@
+<form id="AddProductsForms" method="post" controller="Admin" action="AddNewImage" enctype="multipart/form-data">
 
     <label for="file"><h3>Загрузите картинку цветов</h3></label>
     <input type="file" name="file" id="fileInput" value="" />
 
-    <input type="submit" value="Добавить" onclick="uploadFile()" />
-@*</form>*@
+    <input type="submit" value="Добавить"  />
+</form>
 
-<script>
+@*<script>
     function uploadFile() {
         showLoader();
         var formData = new FormData();
@@ -53,13 +53,12 @@
             processData: false, 
             success: function (response) {
                 hideLoader();
-                console.log('File uploaded successfully');
             },
             error: function (xhr, status, error) {
                 hideLoader();
-                console.error('Upload failed:', error);
+                alert('Ошибка при загрузке файла на сервер:', error);
             }
         });
     }
-</script>
+</script>*@
 

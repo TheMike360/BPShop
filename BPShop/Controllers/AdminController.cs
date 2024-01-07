@@ -33,34 +33,12 @@ namespace BPShop.Controllers
 			return View();
 		}
 
-		[HttpPost]
-		public async Task AdminPanelAdd(Product product)
+		public ActionResult GetProductsTable()
 		{
-			context.Products.Add(product);
-			await context.SaveChangesAsync();
+			IQueryable<Product> Products = context.Products.OrderByDescending(x => x.ID);
+			return View(Products);
 		}
 
-		[HttpPost]
-		public ActionResult AddNewImage(HttpPostedFileBase file)
-		{
-			try
-			{
-				if (file != null && file.ContentLength > 0)
-				{
-					string fileName = Path.GetFileName(file.FileName);
-
-					string filePath = Path.Combine(Server.MapPath("~/Content/productImgs"), fileName);
-					file.SaveAs(filePath);
-					return View("ImagesPage");
-				}
-				else
-					return Redirect("ErrorPage");
-			}
-			catch (Exception e)
-			{
-				return RedirectToAction("ErrorPage", new { Error = e.InnerException + "\r\n\r\n\r\n" + e.StackTrace  });
-			}
-		}
 		public ActionResult ImagesPage()
 		{
 			string folderPath = Server.MapPath("~/Content/productImgs");
@@ -76,15 +54,91 @@ namespace BPShop.Controllers
 			return View();
 		}
 
+		[HttpPost]
+		public ActionResult AddNewImage(HttpPostedFileBase file)
+		{
+			try
+			{
+				if (file != null && file.ContentLength > 0)
+				{
+					string fileName = Path.GetFileName(file.FileName);
+
+					string filePath = Path.Combine(Server.MapPath("~/Content/productImgs"), fileName);
+					file.SaveAs(filePath);
+
+					string folderPath = Server.MapPath("~/Content/productImgs");
+					string[] imagePaths = Directory.GetFiles(folderPath);
+
+					// Извлекаем имена файлов из путей
+					string[] fileNames = imagePaths.Select(path => Path.GetFileName(path)).ToArray();
+
+					// Передаем имена файлов и пути к изображениям в представление
+					ViewBag.ImagePaths = imagePaths;
+					ViewBag.FileNames = fileNames;
+
+					return View("ImagesPage");
+				}
+				else
+					return RedirectToAction("ErrorPage", new { Error = "Не удалось получить файл" });
+			}
+			catch (Exception e)
+			{
+				return RedirectToAction("ErrorPage", new { Error = e.InnerException + "\r\n\r\n\r\n" + e.StackTrace });
+			}
+		}
+
 		public ActionResult AddProductsForm()
 		{
 			return View();
 		}
 
-		public ActionResult GetProductsTable()
+		[HttpPost]
+		public async Task<ActionResult> AddNewProduct(Product product)
 		{
-			IQueryable<Product> Products = context.Products.OrderByDescending(x => x.ID);
-			return View(Products);
+			product.ImgRef = "/Content/productImgs/" + product.ImgRef;
+			context.Products.Add(product);
+			await context.SaveChangesAsync();
+			ViewBag.IsAdded = true;
+
+			return View("AddProductsForm");
+		}
+
+		public async Task<ActionResult> DeleteProduct(int productId)
+		{
+			var product = context.Products.FirstOrDefault(x => x.ID == productId);
+			if (product == null)
+			{
+				return RedirectToAction("ErrorPage", new { Error = $"Не удалось найти продукт с ID = {productId}" });
+			}
+
+			context.Products.Remove(product);
+			await context.SaveChangesAsync();
+
+			return RedirectToAction("GetProductsTable");
+		}
+
+		public ActionResult EditProductsForm(int? productId)
+		{
+			Product product = context.Products.FirstOrDefault(x => x.ID == productId);
+			return View(product);
+		}
+
+		[HttpPost]
+		public async Task<ActionResult> SaveEdit(Product product)
+		{
+			Product EditProduct = context.Products.FirstOrDefault(x => x.ID == product.ID);
+			EditProduct.Name = product.Name;
+			EditProduct.Cost = product.Cost;
+			EditProduct.Description = product.Description;
+			EditProduct.Count = product.Count;
+			EditProduct.CountFlowersInBouquet = product.CountFlowersInBouquet;
+			EditProduct.ProductType = product.ProductType;
+			EditProduct.SearchPrompt = product.SearchPrompt;
+			EditProduct.FlowersType = product.FlowersType;
+			EditProduct.ImgRef = "/Content/productImgs/" + product.ImgRef;
+			await context.SaveChangesAsync();
+
+			return RedirectToAction("GetProductsTable");
 		}
 
 		public ActionResult ErrorPage(string Error = null)

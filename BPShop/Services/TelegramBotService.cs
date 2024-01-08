@@ -1,40 +1,28 @@
 ﻿using System;
-using System.Threading;
+using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
-//using Telegram.Bot;
-//using Telegram.Bot.Polling;
-//using Telegram.Bot.Types;
 
 namespace BPShop.Services
 {
 	public class TelegramBotService
 	{
-		//private readonly ITelegramBotClient botClient;
-
-		public TelegramBotService(string botToken)
+		public async Task ProcessMessageAsync(string chatId, string messageText)
 		{
-			//botClient = new TelegramBotClient(botToken);
-		}
+			string botToken = "6007708993:AAG6yGNLeGOJ-v6QLjyV6XdzkTKX9crBAoQ";
 
-		public void StartReceiving()
-		{
-			var token = new CancellationTokenSource();
-			//botClient.StartReceiving(OnMessage, ErrorMessage, new ReceiverOptions { AllowedUpdates = { } }, token.Token);
-		}
+			string apiUrl = $"https://api.telegram.org/bot{botToken}/sendMessage";
 
-		//private async Task OnMessage(ITelegramBotClient bot, Update update, CancellationToken cancellationToken)
-		//{
-		//}
+			using (HttpClient httpClient = new HttpClient())
+			{
+				var parameters = new FormUrlEncodedContent(new[]
+				{
+					new KeyValuePair<string, string>("chat_id", chatId),
+					new KeyValuePair<string, string>("text", messageText)
+				});
 
-		//private async Task ErrorMessage(ITelegramBotClient bot, Exception exception, CancellationToken cancellationToken)
-		//{
-		//}
-
-
-
-		public async Task ProcessMessageAsync(long chatId, string messageText)
-		{
-			//await botClient.SendTextMessageAsync(chatId, messageText);
+				HttpResponseMessage response = await httpClient.PostAsync(apiUrl, parameters);
+			}
 		}
 	}
 }

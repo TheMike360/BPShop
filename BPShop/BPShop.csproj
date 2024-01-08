@@ -308,6 +308,7 @@
     <Content Include="Content\imgs\BPLogo.jfif" />
     <Content Include="Content\imgs\BPLogo.png" />
     <Content Include="Content\imgs\BPLogo_black.png" />
+    <Content Include="Content\imgs\dummy-200x200.png" />
     <Content Include="Content\imgs\flowers1.jpg" />
     <Content Include="Content\imgs\flowers2.jpg" />
     <Content Include="Content\imgs\flowers3.jpg" />

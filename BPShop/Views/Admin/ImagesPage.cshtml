@@ -11,8 +11,9 @@
         display: flex;
         flex-wrap: wrap;
     }
+
     .imageContainer {
-        max-width: 250px; 
+        max-width: 250px;
         margin: 2rem;
     }
 </style>
@@ -33,32 +34,39 @@
     <label for="file"><h3>Загрузите картинку цветов</h3></label>
     <input type="file" name="file" id="fileInput" value="" />
 
-    <input type="submit" value="Добавить"  />
+    <input type="submit" value="Добавить" />
 </form>
 
+
+<div style="max-width: 500px">
+    <p>Для того что бы товар выглядел корректно и симметрично на сайте загружайте фото в размере 200х200 пикселей как например ниже</p>
+    <img src="~/Content/imgs/dummy-200x200.png" alt="Example image" style="max-width: 200px" />
+    <p>Так же рекомендую не загружать слишком много весящие фото, желательно что бы одна картинка весила не больше 200 клб или 0.2 мб, если больше на сервере быстро закончиться память, либо приобрести сервер с большим количеством памяти</p>
+</div>
+
 @*<script>
-    function uploadFile() {
-        showLoader();
-        var formData = new FormData();
-        var fileInput = document.getElementById('fileInput');
-        var file = fileInput.files[0];
+        function uploadFile() {
+            showLoader();
+            var formData = new FormData();
+            var fileInput = document.getElementById('fileInput');
+            var file = fileInput.files[0];
 
-        formData.append('file', file);
+            formData.append('file', file);
 
-        $.ajax({
-            url: '/Admin/AddNewImage',
-            type: 'POST',
-            data: formData,
-            contentType: false, 
-            processData: false, 
-            success: function (response) {
-                hideLoader();
-            },
-            error: function (xhr, status, error) {
-                hideLoader();
-                alert('Ошибка при загрузке файла на сервер:', error);
-            }
-        });
-    }
-</script>*@
+            $.ajax({
+                url: '/Admin/AddNewImage',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    hideLoader();
+                },
+                error: function (xhr, status, error) {
+                    hideLoader();
+                    alert('Ошибка при загрузке файла на сервер:', error);
+                }
+            });
+        }
+    </script>*@
 
